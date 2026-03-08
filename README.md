@@ -3,7 +3,7 @@ WIP - Work in Progress - March 08 2026
 # SaaS_Flowlytics-Subscription_Revenue-Product_Analytics-Revenue_Reconciliation_Analytics
 MRR Movement, Net Revenue Retention, Geographic Revenue Distribution, Onboarding Experiment Analysis, and Revenue & Billing Reconciliation
 
-<br><br>
+<br>
 
 This project analyzes three years of synthetic SaaS subscription data from a simulated workflow automation platform, spanning January 2024 to June 2026. The dataset contains customer-level, trial-level, subscription lifecycle, billing, and engagement records, along with product experiment assignments and marketing acquisition data.
 

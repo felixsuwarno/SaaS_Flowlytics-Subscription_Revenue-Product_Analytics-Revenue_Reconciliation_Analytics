@@ -1,0 +1,2 @@
+# SaaS_Flowlytics-Subscription_Revenue-Product_Analytics-Revenue_Reconciliation_Analytics
+End-to-end SaaS revenue analytics project analyzing synthetic subscription data from a workflow automation platform. The analysis covers MRR movement, Net Revenue Retention, geographic revenue distribution, onboarding experiment outcomes, and reconciliation between subscription and billing records using SQL and Python.

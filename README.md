@@ -11,7 +11,7 @@ The analysis evaluates subscription revenue dynamics, customer activation behavi
 
 <br>
 
-➤ Project Goal / Purpose:
+➤ Project Goal / Purpose:<br>
 
 This project evaluates how a simulated SaaS subscription business generates and retains recurring revenue over time—examining whether subscription growth is stable, whether product onboarding improvements meaningfully increase activation, and whether billing operations accurately capture all expected revenue.
 
@@ -23,7 +23,7 @@ At the financial operations level, the project performs revenue reconciliation b
 
 <br>
 
-➤ Skills Demonstrated:
+➤ Skills Demonstrated:<br>
 
 Subscription revenue modeling (MRR movement and Net Revenue Retention), geographic revenue analysis, product experiment evaluation (A/B testing and statistical significance testing), trial-to-paid conversion analysis, behavioral feature analysis, and financial reconciliation between subscription and billing systems.
 
@@ -31,7 +31,7 @@ Subscription revenue modeling (MRR movement and Net Revenue Retention), geograph
 
 <br>
 
-➤ Core Business Questions :
+➤ Core Business Questions :<br>
 
 1. REVENUE & SUBSCRIPTION ECONOMICS
   1. How does Monthly Recurring Revenue (MRR) change each month when broken into new, expansion, contraction, and churned MRR?
@@ -50,12 +50,12 @@ Subscription revenue modeling (MRR movement and Net Revenue Retention), geograph
 
 <br>
 
-➤ Executive Summary :
+➤ Executive Summary :<br>
 Work in Progress
 
 <br>
 
-➤ The Dataset :
+➤ The Dataset :<br>
 The raw dataset spans January 2024 through June 2026, and all reporting and conclusions in this project are intentionally scoped to this full analytical window to evaluate subscription revenue growth, customer activation behavior, product experimentation outcomes, and financial reconciliation across the subscription lifecycle.
 
 The analysis uses nine core tables representing a simulated SaaS workflow automation platform (“Flowlytics”):

@@ -33,17 +33,20 @@ Subscription revenue modeling (MRR movement and Net Revenue Retention), geograph
 
 ➤ Core Business Questions :<br>
 
-1. REVENUE & SUBSCRIPTION ECONOMICS
+**1. REVENUE & SUBSCRIPTION ECONOMICS**
+   
   1. How does Monthly Recurring Revenue (MRR) change each month when broken into new, expansion, contraction, and churned MRR?
   2. How does Net Revenue Retention (NRR) change over time?
   3. How are customers and subscription revenue distributed across U.S. states?
    
-2. PRODUCT EXPERIMENTATION
+**2. PRODUCT EXPERIMENTATION**
+   
   1. Does the new onboarding experience increase trial-to-paid conversion?
   2. Is the difference in trial-to-paid conversion between the control and treatment groups statistically significant?
   3. What user characteristics are associated with trial-to-paid conversion?
 
-3. FINANCIAL DATA VALIDATION
+**3. FINANCIAL DATA VALIDATION**
+
   1. Which active subscriptions did not generate a billing invoice in the expected billing month?
   2. Which billing invoices were generated for subscriptions that were not active in the billing period?
   3. Which billing invoices have not been fully paid, or were paid later than the expected payment window?

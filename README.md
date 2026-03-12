@@ -126,6 +126,8 @@ Are our existing customers bringing in more revenue over time, or do we need a c
   - Truncate event_date to the first day of the month and name it mrr_month.
 - **Aggregate by month and event type:** Group by mrr_month and event_type.
   - Sum mrr_change to produce total_mrr — the total MRR contributed by each event type in that month.
+- Pivot event types into columns: Group by mrr_month and conditionally sum total_mrr for each event type into separate columns — new_mrr, expansion_mrr, contraction_mrr, and churn_mrr.
+  - Sum all four columns to produce total_mrr — the net MRR change for that month.
 
 **Python Method**
 

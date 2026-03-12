@@ -130,10 +130,17 @@ Are our existing customers bringing in more revenue over time, or do we need a c
   - Sum all four columns to produce **total_mrr** — the net MRR change for that month.
 
 **Python Method**
+- No data modeling is done on python, python is just used to visualize the data.
 
 <br>
 
 **Charts**
+
+<p align="center">
+  <img src="Charts/01_Monthly_Recurring_Revenue.png" width="100%">
+</p>
+
+br>
 
 
 

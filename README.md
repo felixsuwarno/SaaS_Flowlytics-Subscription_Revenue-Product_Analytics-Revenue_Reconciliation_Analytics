@@ -142,7 +142,13 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 
 br>
 
+**Key Insights**
 
+- **MRR grew consistently every single month in 2025.** The business added net positive MRR every month without exception, ending the year at $169,231 cumulative net MRR from zero in January.
+- **New MRR is doing all the heavy lifting.** In the bottom chart, the green bars (new customers) are the dominant driver every month — roughly $16,000–$22,000 each month. Expansion, contraction, and churn are all relatively small by comparison.
+- **Churn remains stable throughout 2025.** The red bars fluctuate month to month but show no clear directional trend — the worst churn month was actually March, not Q4. Churn is not accelerating; it is running at a consistent level across the year.
+- **Expansion is weak.** The blue bars (existing customers upgrading) are almost invisible compared to new MRR. The business is not meaningfully growing revenue from its existing customer base — it is almost entirely dependent on new customer acquisition to grow.
+- The core risk: if new customer acquisition slows down, the business has no expansion buffer to compensate. 
 
 
 

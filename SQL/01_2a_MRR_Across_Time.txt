@@ -1,0 +1,37 @@
+WITH subscription_events_prepared AS
+(
+    SELECT
+        DATE_TRUNC('month', event_date::DATE)::DATE AS mrr_month,
+        event_type,
+        mrr_change
+    FROM subscription_events
+),
+
+subscription_events_aggregated_metrics AS
+(
+    SELECT
+        mrr_month,
+        SUM(CASE WHEN event_type = 'new'         THEN mrr_change ELSE 0 END) AS new_mrr,
+        SUM(CASE WHEN event_type = 'expansion'   THEN mrr_change ELSE 0 END) AS expansion_mrr,
+        SUM(CASE WHEN event_type = 'contraction' THEN mrr_change ELSE 0 END) AS contraction_mrr,
+        SUM(CASE WHEN event_type = 'churn'       THEN mrr_change ELSE 0 END) AS churn_mrr,
+        SUM(mrr_change)                                                        AS total_mrr
+    FROM subscription_events_prepared
+    GROUP BY mrr_month
+),
+
+subscription_events_mrr_balance AS
+(
+    SELECT
+        mrr_month,
+        new_mrr,
+        expansion_mrr,
+        contraction_mrr,
+        churn_mrr,
+        total_mrr,
+        SUM(total_mrr) OVER (ORDER BY mrr_month ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS mrr_balance
+    FROM subscription_events_aggregated_metrics
+)
+
+SELECT * FROM subscription_events_mrr_balance
+ORDER BY mrr_month;

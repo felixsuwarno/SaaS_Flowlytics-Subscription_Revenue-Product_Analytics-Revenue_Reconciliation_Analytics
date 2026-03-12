@@ -1,0 +1,26 @@
+WITH mrr_balance_lagged AS
+(
+    SELECT
+        mrr_month,
+        expansion_mrr,
+        contraction_mrr,
+        churn_mrr,
+        LAG(mrr_balance) OVER (ORDER BY mrr_month) AS starting_mrr
+    FROM public."01_2a_MRR_Across_Time"
+),
+
+mrr_balance_nrr AS
+(
+    SELECT
+        mrr_month,
+        starting_mrr,
+        expansion_mrr,
+        contraction_mrr,
+        churn_mrr,
+        ROUND(((starting_mrr + expansion_mrr + contraction_mrr + churn_mrr) / starting_mrr::NUMERIC) * 100, 2) AS nrr_pct
+    FROM mrr_balance_lagged
+    WHERE mrr_month BETWEEN '2025-01-01' AND '2025-12-31'
+)
+
+SELECT * FROM mrr_balance_nrr
+ORDER BY mrr_month;

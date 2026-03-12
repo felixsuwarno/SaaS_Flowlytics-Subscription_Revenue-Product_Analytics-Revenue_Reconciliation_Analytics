@@ -154,7 +154,7 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 
 **1.2.  How does Net Revenue Retention (NRR) change over time?**
 
-Make monthly MRR table across time.
+First, generate monthly MRR table across time.
 
 **Tables used**
 - subscription_events
@@ -166,8 +166,14 @@ Make monthly MRR table across time.
   - Sum all four components to produce **total_mrr** — the net MRR change for that month.
 - **Calculate cumulative MRR balance:** From the aggregated table, compute **mrr_balance** as the running cumulative sum of **total_mrr** ordered by **mrr_month** — representing the total MRR the business has built up through the end of each month.
 
+That generates "01_2a_MRR_Across_Time.csv"
 
+Next we generate the NRR calculations.
 
+**SQL Method**
+- **Filter 01_2a_MRR_Across_Time to the 2025 reporting window:** Keep only rows where mrr_month falls within 2025. Retain **mrr_month**, **mrr_balance**, **expansion_mrr**, **contraction_mrr**, and **churn_mrr**.
+  - Derive **starting_mrr** by lagging **mrr_balance** by one month — the balance at the end of the prior month is the starting base for the current month.
+- Calculate NRR per month: From the filtered table, divide the sum of **starting_mrr**, **expansion_mrr**, **contraction_mrr**, and **churn_mrr** by **starting_mrr**, then multiply by 100 to produce **nrr_pct**.
 
 
 

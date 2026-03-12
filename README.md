@@ -124,7 +124,7 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 **SQL Method**
 - **Filter subscription_events to the analytical window:** Keep only rows where event_date falls within January 2024 to June 2026. Retain subscription_id, event_date, event_type, and mrr_change.
   - Truncate event_date to the first day of the month and name it mrr_month.
-- Aggregate by month and event type: Group by mrr_month and event_type.
+- **Aggregate by month and event type:** Group by mrr_month and event_type.
   - Sum mrr_change to produce total_mrr — the total MRR contributed by each event type in that month.
 
 **Python Method**

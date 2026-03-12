@@ -1,4 +1,4 @@
-WIP - Work in Progress - March 08 2026
+WIP - Work in Progress - March 11 2026
 
 # SaaS_Flowlytics-Subscription_Revenue-Product_Analytics-Revenue_Reconciliation_Analytics
 MRR Movement, Net Revenue Retention, Geographic Revenue Distribution, Onboarding Experiment Analysis, and Revenue & Billing Reconciliation
@@ -108,7 +108,30 @@ The analysis uses nine core tables representing a simulated SaaS workflow automa
 - One row per month per acquisition channel.
 - Contains marketing spend across **channels** such as **Google Ads**, **LinkedIn**, **Partner**, and **Organic**.
 
+## The Main Report - Key Questions Answered
 
+### 1 — REVENUE & SUBSCRIPTION ECONOMICS
+Are our existing customers bringing in more revenue over time, or do we need a constant flow of new customers just to keep the numbers up?
+
+<br>
+
+**1.1.  How does Monthly Recurring Revenue (MRR) change each month when broken into new, expansion, contraction, and churned MRR?**
+
+
+**Tables used**
+- subscription_events
+
+**SQL Method**
+- **Filter subscription_events to the analytical window:** Keep only rows where event_date falls within January 2024 to June 2026. Retain subscription_id, event_date, event_type, and mrr_change.
+  - Truncate event_date to the first day of the month and name it mrr_month.
+- Aggregate by month and event type: Group by mrr_month and event_type.
+  - Sum mrr_change to produce total_mrr — the total MRR contributed by each event type in that month.
+
+**Python Method**
+
+<br>
+
+**Charts**
 
 
 

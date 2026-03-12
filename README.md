@@ -160,7 +160,7 @@ First, generate monthly MRR table across time.
 - subscription_events
 
 **SQL Method**
-- **Filter subscription_events to the full data range:** Keep all rows without a date filter. Retain **subscription_id**, **event_date**, **event_type**, and **mrr_change**.
+- **Filter subscription_events to the full historical range:** Keep only rows where event_date falls between January 2023 and December 2025. Retain **subscription_id**, **event_date**, **event_type**, and **mrr_change**.
   - Truncate event_date to the first day of the month and name it mrr_month.
 - **Aggregate MRR components by month:** Group by **mrr_month** and conditionally sum **mrr_change** for each event type into **new_mrr**, **expansion_mrr**, **contraction_mrr**, and **churn_mrr**.
   - Sum all four components to produce **total_mrr** — the net MRR change for that month.
@@ -171,9 +171,9 @@ That generates "01_2a_MRR_Across_Time.csv"
 Next we generate the NRR calculations.
 
 **SQL Method**
-- **Filter 01_2a_MRR_Across_Time to the 2025 reporting window:** Keep only rows where mrr_month falls within 2025. Retain **mrr_month**, **mrr_balance**, **expansion_mrr**, **contraction_mrr**, and **churn_mrr**.
-  - Derive **starting_mrr** by lagging **mrr_balance** by one month — the balance at the end of the prior month is the starting base for the current month.
-- Calculate NRR per month: From the filtered table, divide the sum of **starting_mrr**, **expansion_mrr**, **contraction_mrr**, and **churn_mrr** by **starting_mrr**, then multiply by 100 to produce **nrr_pct**.
+- **Filter MRR table ( 01_2a_MRR_Across_Time )  without a date filter:** Retain **mrr_month**, **mrr_balance**, **expansion_mrr**, **contraction_mrr**, and **churn_mrr**.
+  - For each month, look back one month and pull the **mrr_balance** from the prior month — name it **starting_mrr**. This is the existing revenue base going into the current month.
+- Calculate NRR per month: Keep only rows where mrr_month falls within 2025. Compute **nrr_pct** as (**starting_mrr** + **expansion_mrr** + **contraction_mrr** + **churn_mrr**) / **starting_mrr** × 100.
 
 
 

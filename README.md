@@ -144,11 +144,11 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 
 **Key Insights**
 
-- **MRR grew consistently every single month in 2025.** The business added net positive MRR every month without exception, ending the year at $170,131 cumulative net MRR.
-- **New MRR is doing all the heavy lifting.** The green bars dominate every month at $16,000–$21,000, while expansion, contraction, and churn are all relatively small by comparison. The business is growing almost entirely through new customer acquisition, not from existing customers.
-- **Churn is inconsistent but contained throughout 2025.** The red bars run consistently between -$2,000 and -$5,000 every month with no clear trend in either direction. It is not getting worse, but it is also not improving.
-- **Expansion is weak.** Existing customers upgrading contribute only $1,000–$2,000 per month at most — a small fraction of what new customers bring in each month. The business has not found a way to meaningfully grow revenue from its existing base.
-- **The core risk:** if new customer acquisition slows down, the business has no expansion buffer to compensate. 
+- **MRR grew every single month in 2025 without exception.** The business ended the year at $97,490 in cumulative net MRR, adding positive net MRR all 12 months.
+- **New customer acquisition is the sole growth engine.** New MRR runs at $16,000–$21,000 every month and completely dominates the chart. Expansion from existing customers is minimal — barely visible against the green bars.
+- **Q1 was the most volatile quarter.** March shows the deepest churn of the year at over -$14,000, which nearly wiped out all new MRR that month — net MRR of only $2,994. This directly explains the NRR dip to 94.55% in March.
+- **Churn is the biggest threat to the business.** Running at -$7,000 to -$14,000 every month, churn consistently offsets a large portion of new revenue. The business is essentially running on a treadmill — acquiring new customers to replace the ones leaving.
+- **Expansion is too small to matter.** Expansion MRR never exceeds $2,000 in any single month. This means the business has not found a way to grow revenue from customers already on the platform — upselling and cross-selling are not working.
 
 <br>
 
@@ -166,17 +166,25 @@ First, generate monthly MRR table across time.
   - Sum all four components to produce **total_mrr** — the net MRR change for that month.
 - **Calculate cumulative MRR balance:** From the aggregated table, compute **mrr_balance** as the running cumulative sum of **total_mrr** ordered by **mrr_month** — representing the total MRR the business has built up through the end of each month.
 
-That generates "01_2a_MRR_Across_Time.csv"
+That generates "**01_2a_MRR_Across_Time.csv**"
 
 Next we generate the NRR calculations.
 
 **SQL Method**
-- **Filter MRR table ( 01_2a_MRR_Across_Time )  without a date filter:** Retain **mrr_month**, **mrr_balance**, **expansion_mrr**, **contraction_mrr**, and **churn_mrr**.
-  - For each month, look back one month and pull the **mrr_balance** from the prior month — name it **starting_mrr**. This is the existing revenue base going into the current month.
-- Calculate NRR per month: Keep only rows where mrr_month falls within 2025. Compute **nrr_pct** as (**starting_mrr** + **expansion_mrr** + **contraction_mrr** + **churn_mrr**) / **starting_mrr** × 100.
+- **Filter MRR table ( 01_2a_MRR_Across_Time )  without a date filter:** Retain **mrr_month**, **expansion_mrr**, **contraction_mrr**, and **churn_mrr**.
+  - For each month, look back one month and pull **mrr_balance** from the prior month — name it **starting_mrr**. This is the existing revenue base going into the current month.
+- **Calculate NRR per month:** Keep only rows where **mrr_month** falls within 2025. Compute **nrr_pct** as (**starting_mrr** + **expansion_mrr** + **contraction_mrr** + **churn_mrr**) / **starting_mrr** × 100.
 
+**Python Method**
+- No data modeling is done on python, python is just used to visualize the data.
 
+<br>
 
+**Charts**
+
+<p align="center">
+  <img src="Charts/01_2_Net_Revenue_Retention.png" width="100%">
+</p>
 
 
 

@@ -137,7 +137,7 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 **Charts**
 
 <p align="center">
-  <img src="Charts/01_1_Monthly_Recurring_Revenue .png" width="100%">
+  <img src="Charts/01_1_Monthly_Recurring_Revenue.png" width="100%">
 </p>
 
 <br>

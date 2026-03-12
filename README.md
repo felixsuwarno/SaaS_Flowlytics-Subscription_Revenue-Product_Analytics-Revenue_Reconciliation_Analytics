@@ -137,17 +137,17 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 **Charts**
 
 <p align="center">
-  <img src="Charts/01_Monthly_Recurring_Revenue .png" width="100%">
+  <img src="Charts/01_1_Monthly_Recurring_Revenue .png" width="100%">
 </p>
 
 <br>
 
 **Key Insights**
 
-- **MRR grew consistently every single month in 2025.** The business added net positive MRR every month without exception, ending the year at $169,231 cumulative net MRR from zero in January.
-- **New MRR is doing all the heavy lifting.** In the bottom chart, the green bars (new customers) are the dominant driver every month — roughly $16,000–$22,000 each month. Expansion, contraction, and churn are all relatively small by comparison.
-- **Churn remains stable throughout 2025.** The red bars fluctuate month to month but show no clear directional trend — the worst churn month was actually March, not Q4. Churn is not accelerating; it is running at a consistent level across the year.
-- **Expansion is weak.** The blue bars (existing customers upgrading) are almost invisible compared to new MRR. The business is not meaningfully growing revenue from its existing customer base — it is almost entirely dependent on new customer acquisition to grow.
+- **MRR grew consistently every single month in 2025.** The business added net positive MRR every month without exception, ending the year at $170,131 cumulative net MRR.
+- **New MRR is doing all the heavy lifting.** The green bars dominate every month at $16,000–$21,000, while expansion, contraction, and churn are all relatively small by comparison. The business is growing almost entirely through new customer acquisition, not from existing customers.
+- **Churn is inconsistent but contained throughout 2025.** The red bars run consistently between -$2,000 and -$5,000 every month with no clear trend in either direction. It is not getting worse, but it is also not improving.
+- **Expansion is weak.** Existing customers upgrading contribute only $1,000–$2,000 per month at most — a small fraction of what new customers bring in each month. The business has not found a way to meaningfully grow revenue from its existing base.
 - **The core risk:** if new customer acquisition slows down, the business has no expansion buffer to compensate. 
 
 <br>

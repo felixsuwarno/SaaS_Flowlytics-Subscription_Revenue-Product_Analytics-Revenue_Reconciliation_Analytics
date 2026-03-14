@@ -204,14 +204,14 @@ Next we generate the NRR calculations.
 - customers
 
 **SQL Method**
-- Filter subscriptions to active records only: Reduce the subscriptions table to rows where subscription_status = 'active'. Keep subscription_id and customer_id.
-- Filter subscription events up to December 31 2025: Reduce the subscription_events table to rows where event_date is on or before December 31, 2025. This captures the full event history needed to reconstruct each customer's MRR standing as of December 31 2025. Keep subscription_id and mrr_change.
-- Join active subscriptions to their events: Join the filtered subscriptions to the filtered events on subscription_id. Keep customer_id and mrr_change.
-- Aggregate net MRR per customer: Group by customer_id and sum mrr_change to produce net_mrr — the MRR standing for each active customer as of December 31 2025.
-- Join customer MRR to customers to bring in state: Join the aggregated customer MRR result to the customers table on customer_id. Keep customer_id, state, and net_mrr.
-- Aggregate metrics by state: Group by state and produce:
-  - customer_count — number of active customers in that state as of December 31 2025
-  - total_mrr — sum of net_mrr across all active customers in that state
+- **Filter subscriptions to active records only:** Reduce the subscriptions table to rows where **subscription_status** = '**active**'. Keep **subscription_id** and **customer_id**.
+- **Filter subscription events up to December 31 2025:** Reduce the **subscription_events** table to rows where **event_date** is on or before December 31, 2025. This captures the full event history needed to reconstruct each customer's MRR standing as of December 31 2025. Keep **subscription_id** and **mrr_change**.
+- **Join active subscriptions to their events:** Join the filtered subscriptions to the filtered events on **subscription_id**. Keep **customer_id** and **mrr_change**.
+- **Aggregate net MRR per customer:** Group by **customer_id** and sum **mrr_change** to produce **net_mrr** — the MRR standing for each active customer as of December 31 2025.
+- **Join customer MRR to customers to bring in state:** Join the aggregated customer MRR result to the customers table on **customer_id**. Keep **customer_id**, **state**, and **net_mrr**.
+- **Aggregate metrics by state:** Group by state and produce:
+  - **customer_count** — number of active customers in that state as of December 31 2025
+  - **total_mrr** — sum of **net_mrr** across all active customers in that state
 
 **Python Method**
 - No data modeling is done on python, python is just used to visualize the data.

@@ -304,7 +304,11 @@ Next we generate the NRR calculations.
 
 
 **Python Method**
-- 
+- **Extract conversion counts from the dataframe:** From the loaded dataframe, pull **total_trials** and **converted** for each variant. Derive **not_converted** as **total_trials** minus **converted**. These two values — **converted** and **not_converted** — form the contingency table for the chi-square test.
+- **Build the contingency table:** Construct a 2x2 contingency table with one row per variant and two columns — **converted** and **not_converted**. This is the input format required by the chi-square test.
+- **Run the chi-square test:** Apply a chi-square test of independence on the contingency table. Extract the chi-square statistic, p-value, and degrees of freedom from the result.
+- **Evaluate statistical significance:** Compare the p-value against a significance threshold of 0.05. If the p-value is below 0.05, the difference in conversion rates is statistically significant. If it is at or above 0.05, the difference is not statistically significant.
+- **Print the results:** Output the chi-square statistic, p-value, degrees of freedom, and the significance conclusion in plain English.
 
 <br>
 

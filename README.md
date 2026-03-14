@@ -319,7 +319,10 @@ Next we generate the NRR calculations.
 </p>
 
 **Key Insights :**
-
+- The chi-square statistic is 207.65, which is very large. This means the observed conversion counts are far from what would be expected if the new onboarding had no effect.
+- The p-value is 0.000000 — effectively zero. This means the probability of seeing a difference this large by random chance alone is virtually zero.
+- The result is statistically significant at the 0.05 significance level. The 6.54 percentage point improvement in conversion rate from the new onboarding experience is a real effect, not random noise.
+- Combined with the findings from 2-1, the evidence is clear: the new onboarding experience meaningfully increases trial-to-paid conversion and the result is statistically confirmed.
 
 
 <br>

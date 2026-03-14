@@ -256,8 +256,23 @@ Next we generate the NRR calculations.
 
 <br>
 
+### 2 — PRODUCT EXPERIMENTATION
 
+**2-1  Does the new onboarding experience increase trial-to-paid conversion?**
 
+**Tables used :**
+- trials.csv
+- experiment_assignments.csv
+- subscriptions.csv
+
+**SQL Method**
+- **Filter the trials table to the experiment population:** From the trials table, keep only **customer_id**. Each row represents one trial customer and is the base population for this analysis.
+- **Filter the experiment_assignments table to variant assignments:** From the **experiment_assignments** table, keep **customer_id** and variant. This identifies which customers were assigned to control or treatment.
+- **Filter the subscriptions table to conversion status:** From the subscriptions table, keep **customer_id** and **subscription_status** across all status values.
+  - **Create a derived column called converted**: set it to 1 if **subscription_status** is active or cancelled, otherwise 0. A customer who ever activated a paid subscription is considered converted regardless of whether they later cancelled.
+- **Join trials to experiment assignments:** Join the filtered trials table to the filtered experiment assignments table on **customer_id**. This produces the experiment population — trial customers who were assigned to a variant.
+- **Join the experiment population to conversion status:** Left join the experiment population to the filtered subscriptions table on **customer_id**. Use a left join to retain trial customers who have no subscription record. Set converted to 0 for customers with no match.
+- **Aggregate conversion metrics by variant:** Group by variant. Calculate **total_trials** as the count of customers, converted as the sum of the converted flag, and **conversion_rate** as converted divided by **total_trials**.
 
 
 

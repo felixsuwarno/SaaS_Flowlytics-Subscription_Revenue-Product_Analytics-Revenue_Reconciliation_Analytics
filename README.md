@@ -228,7 +228,7 @@ Next we generate the NRR calculations.
   - **total_mrr** — sum of **net_mrr** across all active customers in that state
 
 **Python Method**
-- No data modeling is done on python
+- No data modeling is done on python : visualization is done in Tableau Public
 
 <br>
 
@@ -273,7 +273,16 @@ Next we generate the NRR calculations.
 - **Join the experiment population to conversion status:** Left join the experiment population to the filtered subscriptions table on **customer_id**. Use a left join to retain trial customers who have no subscription record. Set converted to 0 for customers with no match.
 - **Aggregate conversion metrics by variant:** Group by variant. Calculate **total_trials** as the count of customers, converted as the sum of the converted flag, and **conversion_rate** as converted divided by **total_trials**.
 
+**Python Method**
+- No data modeling is done on python, there is no visualization necessary to answer this business question.
 
+<br>
+
+**Charts**
+
+<p align="center">
+  <img src="Charts/02_1_Trial_to_Paid_Conversion.png" width="100%">
+</p>
 
 
 

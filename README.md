@@ -300,9 +300,7 @@ Next we generate the NRR calculations.
 **2-2  Is the difference in trial-to-paid conversion between the control and treatment groups statistically significant?**
 
 **Tables used :**
-
-
-**SQL Method**
+02_1_Trial_To_Paid_Conversion.csv
 
 
 **Python Method**

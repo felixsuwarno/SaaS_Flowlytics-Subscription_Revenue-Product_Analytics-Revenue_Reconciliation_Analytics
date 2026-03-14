@@ -281,7 +281,7 @@ Next we generate the NRR calculations.
 **Charts**
 
 <p align="center">
-  <img src="Charts/02_1_Trial_to_Paid_Conversion.png" width="100%">
+  <img src="Charts/02_1_Trial_to_Paid_Conversion.png" width="50%">
 </p>
 
 

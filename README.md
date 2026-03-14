@@ -233,9 +233,16 @@ Next we generate the NRR calculations.
 </p>
 
 **Key Insights**
+- **Revenue is heavily concentrated in three states**. CA, NY, and TX are the clear leaders — visually the darkest on the map and the longest bars on the chart. There is a noticeable gap between TX and FL, marking a sharp drop-off after the top three.
+- **The top 5 states follow U.S. tech and population centers**.CA, NY, TX, FL, and WA dominate the bar chart. This is expected for a workflow automation product — these states have the highest density of tech companies and knowledge workers.
+- **The revenue base is top-heavy.** After the top 5 states the bars shrink rapidly and consistently. The majority of states show minimal bar length, indicating that most of the U.S. geography contributes very little to total MRR.
 
-- 
-
+**1-4  Business Recommendation**
+- **Flowlytics has a stable and growing revenue base, but the growth model is fragile.** The business is entirely dependent on new customer acquisition to offset churn. If new signups slow down for even one or two months, total MRR will decline. This is not a sustainable position for a mature SaaS company.
+- There are two levers available to fix this.
+  - **The first is reducing churn.** Churn runs at $7,000 to $14,000 every month — that is revenue the business has already earned and is losing. Identifying why customers cancel and addressing those reasons directly will have immediate impact on net MRR without requiring a single new signup.
+  - **The second is expanding revenue from existing customers**. Expansion MRR never exceeds $2,000 in any month — meaning upselling and plan upgrades are effectively not happening. A mature SaaS business should be growing revenue from its existing base through plan upgrades, seat expansion, or add-on features. Flowlytics is not doing this. Fixing this would allow the business to grow even in months where new customer acquisition is slow.
+- **Geographic concentration is a secondary risk.** CA, NY, and TX together represent a disproportionate share of total MRR. A significant economic disruption or competitive entry in any of these three states would have outsized impact on the business.
 
 
 

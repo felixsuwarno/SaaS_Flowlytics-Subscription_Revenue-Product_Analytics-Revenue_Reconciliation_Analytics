@@ -1,0 +1,35 @@
+WITH trials_experiment_join AS 
+(
+    SELECT t.customer_id,
+           e.variant
+    FROM trials t
+    INNER JOIN experiment_assignments e ON t.customer_id = e.customer_id
+),
+
+subscriptions_filtered_converted AS 
+(
+    SELECT customer_id,
+           CASE WHEN subscription_status IN ('active', 'cancelled') THEN 1 ELSE 0 END AS converted
+    FROM subscriptions
+),
+
+trials_experiment_conversion_join AS 
+(
+    SELECT te.customer_id,
+           te.variant,
+           COALESCE(s.converted, 0) AS converted
+    FROM trials_experiment_join te
+    LEFT JOIN subscriptions_filtered_converted s ON te.customer_id = s.customer_id
+),
+
+variant_aggregated_metrics AS 
+(
+    SELECT variant,
+           COUNT(customer_id) AS total_trials,
+           SUM(converted) AS converted,
+           ROUND(SUM(converted)::NUMERIC / COUNT(customer_id), 4) AS conversion_rate
+    FROM trials_experiment_conversion_join
+    GROUP BY variant
+)
+
+SELECT * FROM variant_aggregated_metrics

@@ -315,7 +315,7 @@ Next we generate the NRR calculations.
 **Charts**
 
 <p align="center">
-  <img src="Charts/" width="50%">
+  <img src="Charts/02_2_Chi_Square_Test.png" width="50%">
 </p>
 
 **Key Insights :**

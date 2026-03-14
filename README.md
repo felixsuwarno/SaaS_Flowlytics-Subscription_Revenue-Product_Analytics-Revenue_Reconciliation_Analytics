@@ -1,4 +1,4 @@
-WIP - Work in Progress - March 12 2026
+WIP - Work in Progress - March 14 2026
 
 # SaaS Flowlytics - Subscription Revenue - Product Analytics - Revenue Reconciliation Analytics
 MRR Movement, Net Revenue Retention, Geographic Revenue Distribution, Onboarding Experiment Analysis, and Revenue & Billing Reconciliation
@@ -109,8 +109,10 @@ The analysis uses nine core tables representing a simulated SaaS workflow automa
 - Contains marketing spend across **channels** such as **Google Ads**, **LinkedIn**, **Partner**, and **Organic**.
 
 <br>
+
 ---
-<br>
+
+<br>>
 
 ## The Main Report - Key Questions Answered
 
@@ -155,7 +157,9 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 - **Expansion is too small to matter.** Expansion MRR never exceeds $2,000 in any single month. This means the business has not found a way to grow revenue from customers already on the platform — upselling and cross-selling are not working.
 
 <br>
+
 ---
+
 <br>
 
 **1-2  How does Net Revenue Retention (NRR) change over time?**
@@ -201,7 +205,9 @@ Next we generate the NRR calculations.
 - **The opportunity is in existing customers.** If Flowlytics could get them to upgrade their plans or use more features, revenue would grow even without a single new signup. Right now that is not happening.
 
 <br>
+
 ---
+
 <br>
 
 **1-3  How are customers and subscription revenue distributed across U.S. states?**
@@ -244,8 +250,11 @@ Next we generate the NRR calculations.
   - **The second is expanding revenue from existing customers**. Expansion MRR never exceeds $2,000 in any month — meaning upselling and plan upgrades are effectively not happening. A mature SaaS business should be growing revenue from its existing base through plan upgrades, seat expansion, or add-on features. Flowlytics is not doing this. Fixing this would allow the business to grow even in months where new customer acquisition is slow.
 - **Geographic concentration is a secondary risk.** CA, NY, and TX together represent a disproportionate share of total MRR. A significant economic disruption or competitive entry in any of these three states would have outsized impact on the business.
 
+<br>
 
+---
 
+<br>
 
 
 

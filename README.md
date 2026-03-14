@@ -198,7 +198,10 @@ Next we generate the NRR calculations.
 
 **1-3  How are customers and subscription revenue distributed across U.S. states?**
 
-First we need to make
+**Tables used**:
+- subscriptions
+- subscription_events
+- customers
 
 **SQL Method**
 - **Filter subscriptions to active records only:** Reduce the subscriptions table to rows where **subscription_status** = '**active**'. Keep **subscription_id** and **customer_id**.

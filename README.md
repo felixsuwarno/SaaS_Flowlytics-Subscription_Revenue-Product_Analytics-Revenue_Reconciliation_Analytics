@@ -108,6 +108,10 @@ The analysis uses nine core tables representing a simulated SaaS workflow automa
 - One row per month per acquisition channel.
 - Contains marketing spend across **channels** such as **Google Ads**, **LinkedIn**, **Partner**, and **Organic**.
 
+<br>
+---
+<br>
+
 ## The Main Report - Key Questions Answered
 
 ### 1 — REVENUE & SUBSCRIPTION ECONOMICS
@@ -150,6 +154,8 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 - **Churn is the biggest threat to the business.** Running at -$7,000 to -$14,000 every month, churn consistently offsets a large portion of new revenue. The business is essentially running on a treadmill — acquiring new customers to replace the ones leaving.
 - **Expansion is too small to matter.** Expansion MRR never exceeds $2,000 in any single month. This means the business has not found a way to grow revenue from customers already on the platform — upselling and cross-selling are not working.
 
+<br>
+---
 <br>
 
 **1-2  How does Net Revenue Retention (NRR) change over time?**
@@ -194,7 +200,9 @@ Next we generate the NRR calculations.
 - **The business is entirely dependent on new customer acquisition.** Every month, Flowlytics has to sign up enough new customers just to replace the ones it lost. If new signups slow down for even one or two months, revenue will drop. That is a fragile position to be in.
 - **The opportunity is in existing customers.** If Flowlytics could get them to upgrade their plans or use more features, revenue would grow even without a single new signup. Right now that is not happening.
 
+<br>
 ---
+<br>
 
 **1-3  How are customers and subscription revenue distributed across U.S. states?**
 
@@ -214,7 +222,7 @@ Next we generate the NRR calculations.
   - **total_mrr** — sum of **net_mrr** across all active customers in that state
 
 **Python Method**
-- No data modeling is done on python, python is just used to visualize the data.
+- No data modeling is done on python
 
 <br>
 

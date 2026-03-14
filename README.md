@@ -284,8 +284,47 @@ Next we generate the NRR calculations.
   <img src="Charts/02_1_Trial_to_Paid_Conversion.png" width="50%">
 </p>
 
+**Key Insights :**
+
+- The treatment group converted at 26.06%, compared to 19.52% for the control group — a difference of 6.54 percentage points.
+- The new onboarding experience produced a 33.5% relative improvement in trial-to-paid conversion over the old experience.
+- The treatment group had fewer trial users (13,993) than the control group (21,007) — a 60/40 split rather than the expected 50/50. This unequal distribution is worth investigating as it may indicate an issue with the experiment assignment process.
+- The data directionally supports that the new onboarding experience is more effective at converting trial users to paid subscribers. However, statistical significance has not yet been tested — that is business question 2-2.
+
+<br>
+
+---
+
+<br>
+
+**2-2  Is the difference in trial-to-paid conversion between the control and treatment groups statistically significant?**
+
+**Tables used :**
 
 
+**SQL Method**
+
+
+**Python Method**
+- 
+
+<br>
+
+**Charts**
+
+<p align="center">
+  <img src="Charts/" width="50%">
+</p>
+
+**Key Insights :**
+
+
+
+<br>
+
+---
+
+<br>
 
 
 

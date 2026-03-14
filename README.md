@@ -115,7 +115,7 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 
 <br>
 
-**1.1.  How does Monthly Recurring Revenue (MRR) change each month when broken into new, expansion, contraction, and churned MRR?**
+**1-1  How does Monthly Recurring Revenue (MRR) change each month when broken into new, expansion, contraction, and churned MRR?**
 
 
 **Tables used**
@@ -152,7 +152,7 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 
 <br>
 
-**1.2.  How does Net Revenue Retention (NRR) change over time?**
+**1-2  How does Net Revenue Retention (NRR) change over time?**
 
 First, generate monthly MRR table across time.
 
@@ -194,7 +194,28 @@ Next we generate the NRR calculations.
 - **The business is entirely dependent on new customer acquisition.** Every month, Flowlytics has to sign up enough new customers just to replace the ones it lost. If new signups slow down for even one or two months, revenue will drop. That is a fragile position to be in.
 - **The opportunity is in existing customers.** If Flowlytics could get them to upgrade their plans or use more features, revenue would grow even without a single new signup. Right now that is not happening.
 
+---
 
+**1-3  How does Net Revenue Retention (NRR) change over time?**
+
+
+**SQL Method**
+- 
+
+**Python Method**
+- No data modeling is done on python, python is just used to visualize the data.
+
+<br>
+
+**Charts**
+
+<p align="center">
+  <img src="Charts/01_2_Net_Revenue_Retention.png" width="100%">
+</p>
+
+**Key Insights**
+
+- 
 
 
 

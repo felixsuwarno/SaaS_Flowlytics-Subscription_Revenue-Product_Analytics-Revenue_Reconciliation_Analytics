@@ -229,7 +229,7 @@ Next we generate the NRR calculations.
 **Charts**
 
 <p align="center">
-  <img src="Charts/01_2_Net_Revenue_Retention.png" width="100%">
+  <img src="Charts/01_3_MRR_by_Geography_by_end_of_2025.png" width="100%">
 </p>
 
 **Key Insights**

@@ -266,8 +266,7 @@ Next we generate the NRR calculations.
 - subscriptions.csv
 
 **SQL Method**
-- **Filter the trials table to the experiment population:** From the trials table, keep only **customer_id**. Each row represents one trial customer and is the base population for this analysis.
-- **Filter the experiment_assignments table to variant assignments:** From the **experiment_assignments** table, keep **customer_id** and variant. This identifies which customers were assigned to control or treatment.
+- **Join trials to experiment assignments:** Join the trials table to the **experiment_assignments** table on **customer_id**. Keep **customer_id** and variant. This produces the experiment population — trial customers who were assigned to a variant.
 - **Filter the subscriptions table to conversion status:** From the subscriptions table, keep **customer_id** and **subscription_status** across all status values.
   - **Create a derived column called converted**: set it to 1 if **subscription_status** is active or cancelled, otherwise 0. A customer who ever activated a paid subscription is considered converted regardless of whether they later cancelled.
 - **Join trials to experiment assignments:** Join the filtered trials table to the filtered experiment assignments table on **customer_id**. This produces the experiment population — trial customers who were assigned to a variant.

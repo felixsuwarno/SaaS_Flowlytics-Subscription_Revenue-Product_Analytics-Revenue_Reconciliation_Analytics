@@ -368,5 +368,14 @@ Next we generate the NRR calculations.
 - **Compute conversion rate per feature per quartile — integrations connected:** Same structure, group by **integrations_quartile**, label feature as **integrations_connected**.
 - **Stack all four feature outputs into one result:** Union all four aggregation CTEs into a single output. Order by feature and quartile ascending.
 
+<p align="center">
+  <img src="Charts/02_3_Trial_User_Conversion_Analysis.png" width="50%">
+</p>
 
+**Key Insights**
+Based on the two charts:
 
+- Conversion only happens at the top engagement tier/ at Quartile 4. This means low-to-mid engagement during trial is not a reliable signal — users need to be in the top 25% of engagement before conversion becomes likely.
+- "Templates used" and "workflows" created are the strongest differentiators. Both show separation ratios above 3x. Converted users used 3x more templates and created 3x more workflows than non-converters. These two features best separate the two groups.
+- Days active has the sharpest Q4 jump. At Q4, days active reaches 68% conversion rate — the highest of all four features. Users who consistently return during the trial are the most likely to pay. Stickiness is the strongest conversion signal.
+- Integrations connected is the most linear predictor. Unlike the other three features which are flat until Q4, integrations connected shows a steadier climb from Q1 to Q4. Every additional integration meaningfully increases conversion probability even at lower engagement levels. This makes it the most actionable early signal — a user who connects even one integration is already more likely to convert than someone who uses templates or creates workflows at the same engagement tier.

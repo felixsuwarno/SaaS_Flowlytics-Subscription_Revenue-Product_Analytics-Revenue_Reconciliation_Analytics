@@ -1,0 +1,17 @@
+feature,quartile,total_customers,converted_customers,conversion_rate
+days_active_during_trial,1,12500,235,0.0188
+days_active_during_trial,2,12500,282,0.0226
+days_active_during_trial,3,12500,1620,0.1296
+days_active_during_trial,4,12500,8539,0.6831
+integrations_connected,1,12500,572,0.0458
+integrations_connected,2,12500,1342,0.1074
+integrations_connected,3,12500,3043,0.2434
+integrations_connected,4,12500,5719,0.4575
+templates_used,1,12500,277,0.0222
+templates_used,2,12500,628,0.0502
+templates_used,3,12500,1763,0.1410
+templates_used,4,12500,8008,0.6406
+workflows_created,1,12500,280,0.0224
+workflows_created,2,12500,261,0.0209
+workflows_created,3,12500,3103,0.2482
+workflows_created,4,12500,7032,0.5626

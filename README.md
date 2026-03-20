@@ -338,7 +338,7 @@ Next we generate the NRR calculations.
 - trial_engagement_summary
 - subscriptions 
 
-**SQL Method**
+**SQL Method - User Activation Metrics**
 - **Pull the converted dataset from the existing pipeline:** Start from **trials_subscriptions_converted** — this already has the four engagement features and the conversion flag for every trial customer.
 - **Compute average engagement by conversion status:** Group by **converted**. For each group compute:
   - **customer_count**              — total number of customers in each group

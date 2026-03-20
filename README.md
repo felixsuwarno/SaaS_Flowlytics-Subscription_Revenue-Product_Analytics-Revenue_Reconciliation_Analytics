@@ -339,21 +339,15 @@ Next we generate the NRR calculations.
 - subscriptions 
 
 **SQL Method**
-- **Pull all trial customers as the base population:** Filter the trials table to keep only **customer_id**. Each row represents one unique trial participant.
-- **Bring in engagement features:** Left join the trial population to **trial_engagement_summary** on customer_id. Keep **templates_used**, **workflows_created**, **days_active_during_trial**, and **integrations_connected**.
-- **Bring in subscription status:** Left join the result to subscriptions on **customer_id**. Keep **subscription_status**. Use a left join so trial customers with no subscription record are retained.
-- **Create the conversion flag:** Derive a new column **converted**. Set it to 1 if subscription_status is active or cancelled, otherwise set it to 0. This includes customers with no subscription record, who are treated as not converted.
-- **Compute average engagement by conversion status**: Group by converted. For each group compute:
-  - avg_templates_used            — average number of templates used during trial
-  - avg_workflows_created         — average number of workflows created during trial
-  - avg_days_active               — average number of days active during trial
-  - avg_integrations_connected    — average number of integrations connected during trial
-  - customer_count                — total number of customers in each group
-- **Assign quartile buckets for each engagement feature:** Using the converted dataset, assign each customer to a quartile (1–4) for each of the four features independently. Q1 is the lowest 25%, Q4 is the highest 25%.
-- **Compute conversion rate by feature and quartile:** For each feature-quartile combination, compute:
-  - **total_customers** — number of customers in that quartile
-  - **converted_customers** — number who converted
-  - **conversion_rate** — converted customers divided by total customers
+- **Pull the converted dataset from the existing pipeline:** Start from **trials_subscriptions_converted** — this already has the four engagement features and the conversion flag for every trial customer.
+- **Compute average engagement by conversion status:** Group by **converted**. For each group compute:
+  - **customer_count**              — total number of customers in each group
+  - **avg_templates_used**          — average templates used
+  - **avg_workflows_created**       — average workflows created
+  - **avg_days_active**             — average days active during trial
+  - **avg_integrations_connected**  — average integrations connected
+  - **Pivot the averages into one row per feature:** Reshape the two-row result so each feature becomes its own row. Each row contains the feature name, the average for converted users, and the average for non-converted users.
+  - **Compute the separation ratio:** For each feature, divide the converted average by the non-converted average. This produces a single number per feature that represents how much higher engagement is for converters relative to non-converters. A higher ratio means a stronger predictor.
 
 
 

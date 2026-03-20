@@ -346,8 +346,8 @@ Next we generate the NRR calculations.
   - **avg_workflows_created**       — average workflows created
   - **avg_days_active**             — average days active during trial
   - **avg_integrations_connected**  — average integrations connected
-  - **Pivot the averages into one row per feature:** Reshape the two-row result so each feature becomes its own row. Each row contains the feature name, the average for converted users, and the average for non-converted users.
-  - **Compute the separation ratio:** For each feature, divide the converted average by the non-converted average. This produces a single number per feature that represents how much higher engagement is for converters relative to non-converters. A higher ratio means a stronger predictor.
+- **Pivot the averages into one row per feature:** Reshape the two-row result so each feature becomes its own row. Each row contains the feature name, the average for converted users, and the average for non-converted users.
+- **Compute the separation ratio:** For each feature, divide the converted average by the non-converted average. This produces a single number per feature that represents how much higher engagement is for converters relative to non-converters. A higher ratio means a stronger predictor.
 
 
 

@@ -379,3 +379,12 @@ Based on the two charts:
 - "Templates used" and "workflows" created are the strongest differentiators. Both show separation ratios above 3x. Converted users used 3x more templates and created 3x more workflows than non-converters. These two features best separate the two groups.
 - Days active has the sharpest Q4 jump. At Q4, days active reaches 68% conversion rate — the highest of all four features. Users who consistently return during the trial are the most likely to pay. Stickiness is the strongest conversion signal.
 - Integrations connected is the most linear predictor. Unlike the other three features which are flat until Q4, integrations connected shows a steadier climb from Q1 to Q4. Every additional integration meaningfully increases conversion probability even at lower engagement levels. This makes it the most actionable early signal — a user who connects even one integration is already more likely to convert than someone who uses templates or creates workflows at the same engagement tier.
+
+<br>
+
+**Business Recommendation :**
+- **Roll out the new onboarding experience to all trial users.** The treatment group converted at 26% vs 19.5% for control — a 6.54 percentage point improvement that is statistically confirmed. There is no reason to keep the old experience running.
+- **Investigate the unequal experiment assignment.** The control group had 21,007 users vs 13,993 in treatment — a 60/40 split instead of 50/50. Before rolling out fully, find out why. If the assignment process was flawed, the experiment result may need to be re-evaluated.
+- **Build onboarding flows that push users toward templates and workflows early.** Templates used and workflows created are the strongest predictors of conversion at 3.13x and 3.08x separation. The onboarding experience should guide every new trial user to use at least one template and create at least one workflow within the first few days.
+- **Use integration connection as the early warning signal.** Integrations connected is the most linear predictor — even one integration meaningfully increases conversion probability. Flag trial users who have not connected any integration by day 3 and trigger a re-engagement nudge.
+- **Focus re-engagement efforts on users who are not returning.** Days active at Q4 has the highest conversion rate at 68%. Users who stop logging in after day 1 or 2 are very unlikely to convert. An automated email or in-app prompt targeting inactive trial users could recover a meaningful portion of that group.

@@ -382,8 +382,12 @@ Based on the two charts:
 
 <br>
 
-**Business Recommendation :**
+**2-4 Business Recommendation :**
 - **Roll out the new onboarding experience to all trial users.** The treatment group converted at 26% vs 19.5% for control — a 6.54 percentage point improvement that is statistically confirmed. There is no reason to keep the old experience running.
 - **Build onboarding flows that push users toward templates and workflows early.** Templates used and workflows created are the strongest predictors of conversion at 3.13x and 3.08x separation. The onboarding experience should guide every new trial user to use at least one template and create at least one workflow within the first few days.
 - **Use integration connection as the early warning signal.** Integrations connected is the most linear predictor — even one integration meaningfully increases conversion probability. Flag trial users who have not connected any integration by day 3 and trigger a re-engagement nudge.
 - **Focus re-engagement efforts on users who are not returning.** Days active at Q4 has the highest conversion rate at 68%. Users who stop logging in after day 1 or 2 are very unlikely to convert. An automated email or in-app prompt targeting inactive trial users could recover a meaningful portion of that group.
+
+<br><br>
+
+

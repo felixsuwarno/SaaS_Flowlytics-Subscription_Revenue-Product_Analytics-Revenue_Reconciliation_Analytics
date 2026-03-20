@@ -342,7 +342,7 @@ Next we generate the NRR calculations.
 - **Pull all trial customers as the base population:** Filter the trials table to keep only **customer_id**. Each row represents one unique trial participant.
 - **Bring in engagement features:** Left join the trial population to **trial_engagement_summary** on customer_id. Keep **templates_used**, **workflows_created**, **days_active_during_trial**, and **integrations_connected**.
 - **Bring in subscription status:** Left join the result to subscriptions on **customer_id**. Keep **subscription_status**. Use a left join so trial customers with no subscription record are retained.
-- **Create the conversion flag:** Derive a new column converted. Set it to 1 if subscription_status is active or cancelled, otherwise set it to 0. This includes customers with no subscription record, who are treated as not converted.
+- **Create the conversion flag:** Derive a new column **converted**. Set it to 1 if subscription_status is active or cancelled, otherwise set it to 0. This includes customers with no subscription record, who are treated as not converted.
 - **Compute average engagement by conversion status**: Group by converted. For each group compute:
   - avg_templates_used            — average number of templates used during trial
   - avg_workflows_created         — average number of workflows created during trial

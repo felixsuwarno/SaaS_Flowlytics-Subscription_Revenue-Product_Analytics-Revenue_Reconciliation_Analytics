@@ -1,0 +1,123 @@
+WITH trials_filtered AS 
+(
+    SELECT
+        customer_id
+    FROM trials
+),
+
+trials_engagement_join AS 
+(
+    SELECT
+        t.customer_id,
+        te.templates_used,
+        te.workflows_created,
+        te.days_active_during_trial,
+        te.integrations_connected
+    FROM trials_filtered t
+    LEFT JOIN trial_engagement_summary te
+        ON t.customer_id = te.customer_id
+),
+
+trials_subscriptions_join AS 
+(
+    SELECT
+        te.customer_id,
+        te.templates_used,
+        te.workflows_created,
+        te.days_active_during_trial,
+        te.integrations_connected,
+        s.subscription_status
+    FROM trials_engagement_join te
+    LEFT JOIN subscriptions s
+        ON te.customer_id = s.customer_id
+),
+
+trials_subscriptions_converted AS 
+(
+    SELECT
+        customer_id,
+        templates_used,
+        workflows_created,
+        days_active_during_trial,
+        integrations_connected,
+        CASE
+            WHEN subscription_status IN ('active', 'cancelled') THEN 1
+            ELSE 0
+        END AS converted
+    FROM trials_subscriptions_join
+),
+
+trials_subscriptions_quartiled AS 
+(
+    SELECT
+        customer_id,
+        converted,
+        NTILE(4) OVER (ORDER BY templates_used)           AS templates_quartile,
+        NTILE(4) OVER (ORDER BY workflows_created)        AS workflows_quartile,
+        NTILE(4) OVER (ORDER BY days_active_during_trial) AS days_active_quartile,
+        NTILE(4) OVER (ORDER BY integrations_connected)   AS integrations_quartile
+    FROM trials_subscriptions_converted
+),
+
+templates_quartile_aggregated_metrics AS 
+(
+    SELECT
+        'templates_used'                                        AS feature,
+        templates_quartile                                      AS quartile,
+        COUNT(customer_id)                                      AS total_customers,
+        SUM(converted)                                          AS converted_customers,
+        ROUND(SUM(converted)::NUMERIC / COUNT(customer_id), 4) AS conversion_rate
+    FROM trials_subscriptions_quartiled
+    GROUP BY templates_quartile
+),
+
+workflows_quartile_aggregated_metrics AS 
+(
+    SELECT
+        'workflows_created'                                     AS feature,
+        workflows_quartile                                      AS quartile,
+        COUNT(customer_id)                                      AS total_customers,
+        SUM(converted)                                          AS converted_customers,
+        ROUND(SUM(converted)::NUMERIC / COUNT(customer_id), 4) AS conversion_rate
+    FROM trials_subscriptions_quartiled
+    GROUP BY workflows_quartile
+),
+
+days_active_quartile_aggregated_metrics AS 
+(
+    SELECT
+        'days_active_during_trial'                              AS feature,
+        days_active_quartile                                    AS quartile,
+        COUNT(customer_id)                                      AS total_customers,
+        SUM(converted)                                          AS converted_customers,
+        ROUND(SUM(converted)::NUMERIC / COUNT(customer_id), 4) AS conversion_rate
+    FROM trials_subscriptions_quartiled
+    GROUP BY days_active_quartile
+),
+
+integrations_quartile_aggregated_metrics AS 
+(
+    SELECT
+        'integrations_connected'                                AS feature,
+        integrations_quartile                                   AS quartile,
+        COUNT(customer_id)                                      AS total_customers,
+        SUM(converted)                                          AS converted_customers,
+        ROUND(SUM(converted)::NUMERIC / COUNT(customer_id), 4) AS conversion_rate
+    FROM trials_subscriptions_quartiled
+    GROUP BY integrations_quartile
+),
+
+quartile_metrics_unioned AS 
+(
+    SELECT * FROM templates_quartile_aggregated_metrics
+    UNION ALL
+    SELECT * FROM workflows_quartile_aggregated_metrics
+    UNION ALL
+    SELECT * FROM days_active_quartile_aggregated_metrics
+    UNION ALL
+    SELECT * FROM integrations_quartile_aggregated_metrics
+    ORDER BY feature, quartile
+)
+
+SELECT * 
+FROM quartile_metrics_unioned

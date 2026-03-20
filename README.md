@@ -369,7 +369,7 @@ Next we generate the NRR calculations.
 - **Stack all four feature outputs into one result:** Union all four aggregation CTEs into a single output. Order by feature and quartile ascending.
 
 <p align="center">
-  <img src="Charts/02_3_Trial_User_Conversion_Analysis.png" width="50%">
+  <img src="Charts/02_3_Trial_User_Conversion_Analysis.png" width="100%">
 </p>
 
 **Key Insights**

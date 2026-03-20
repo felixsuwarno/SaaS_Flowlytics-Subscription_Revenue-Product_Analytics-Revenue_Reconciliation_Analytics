@@ -363,7 +363,7 @@ Next we generate the NRR calculations.
 - **Compute conversion rate per feature per quartile — workflows created:** Same structure as above, group by workflows_quartile, label feature as workflows_created.
 - **Compute conversion rate per feature per quartile — days active during trial:** Same structure, group by days_active_quartile, label feature as days_active_during_trial.
 - **Compute conversion rate per feature per quartile — integrations connected:** Same structure, group by integrations_quartile, label feature as integrations_connected.
-- Stack all four feature outputs into one result: Union all four aggregation CTEs into a single output. Order by feature and quartile ascending.
+- **Stack all four feature outputs into one result:** Union all four aggregation CTEs into a single output. Order by feature and quartile ascending.
 
 
 

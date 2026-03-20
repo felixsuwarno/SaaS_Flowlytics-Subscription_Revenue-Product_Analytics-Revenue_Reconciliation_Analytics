@@ -338,7 +338,7 @@ Next we generate the NRR calculations.
 - trial_engagement_summary
 - subscriptions 
 
-**SQL Method - User Activation Metrics**
+**SQL Method - Trial Users Activation Metrics by Conversion Status**
 - **Pull the converted dataset from the existing pipeline:** Start from **trials_subscriptions_converted** — this already has the four engagement features and the conversion flag for every trial customer.
 - **Compute average engagement by conversion status:** Group by **converted**. For each group compute:
   - **customer_count**              — total number of customers in each group
@@ -349,6 +349,21 @@ Next we generate the NRR calculations.
 - **Pivot the averages into one row per feature:** Reshape the two-row result so each feature becomes its own row. Each row contains the feature name, the average for converted users, and the average for non-converted users.
 - **Compute the separation ratio:** For each feature, divide the converted average by the non-converted average. This produces a single number per feature that represents how much higher engagement is for converters relative to non-converters. A higher ratio means a stronger predictor.
 
+**SQL Method - Trial Users Conversion Rate by Engagement Quartile**
+- **Pull all trial customers as the base population:** Filter the trials table to keep only customer_id. Each row represents one unique trial participant.
+- **Bring in engagement features:** Left join the trial population to trial_engagement_summary on customer_id. Keep templates_used, workflows_created, days_active_during_trial, and integrations_connected.
+- **Bring in subscription status:** Left join the result to subscriptions on customer_id. Keep subscription_status. Use a left join so trial customers with no subscription record are retained.
+- **Create the conversion flag:** Derive a new column converted. Set it to 1 if subscription_status is active or cancelled, otherwise set it to 0.
+- **Assign quartile buckets for each engagement feature:** Using the converted dataset, assign each customer to a quartile (1–4) for each of the four features independently. Q1 is the lowest 25% engagement, Q4 is the highest 25% engagement.
+- **Compute conversion rate per feature per quartile** — templates used: Group by templates_quartile. Compute:
+  - **feature** — label as templates_used
+  - **total_customers** — number of customers in that quartile
+  - **converted_customers** — number who converted
+  - **conversion_rate** — converted customers divided by total customers
+- **Compute conversion rate per feature per quartile — workflows created:** Same structure as above, group by workflows_quartile, label feature as workflows_created.
+- **Compute conversion rate per feature per quartile — days active during trial:** Same structure, group by days_active_quartile, label feature as days_active_during_trial.
+- **Compute conversion rate per feature per quartile — integrations connected:** Same structure, group by integrations_quartile, label feature as integrations_connected.
+- Stack all four feature outputs into one result: Union all four aggregation CTEs into a single output. Order by feature and quartile ascending.
 
 
 

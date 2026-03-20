@@ -1,0 +1,101 @@
+WITH
+
+trials_filtered AS 
+(
+    SELECT
+        customer_id
+    FROM trials
+),
+
+trials_engagement_join AS 
+(
+    SELECT
+        t.customer_id,
+        te.templates_used,
+        te.workflows_created,
+        te.days_active_during_trial,
+        te.integrations_connected
+    FROM trials_filtered t
+    LEFT JOIN trial_engagement_summary te
+        ON t.customer_id = te.customer_id
+),
+
+trials_subscriptions_join AS 
+(
+    SELECT
+        te.customer_id,
+        te.templates_used,
+        te.workflows_created,
+        te.days_active_during_trial,
+        te.integrations_connected,
+        s.subscription_status
+    FROM trials_engagement_join te
+    LEFT JOIN subscriptions s
+        ON te.customer_id = s.customer_id
+),
+
+trials_subscriptions_converted AS 
+(
+    SELECT
+        customer_id,
+        templates_used,
+        workflows_created,
+        days_active_during_trial,
+        integrations_connected,
+        CASE
+            WHEN subscription_status IN ('active', 'cancelled') THEN 1
+            ELSE 0
+        END AS converted
+    FROM trials_subscriptions_join
+),
+
+converted_aggregated_metrics AS 
+(
+    SELECT
+        converted,
+        COUNT(customer_id)                          AS customer_count,
+        ROUND(AVG(templates_used), 2)               AS avg_templates_used,
+        ROUND(AVG(workflows_created), 2)            AS avg_workflows_created,
+        ROUND(AVG(days_active_during_trial), 2)     AS avg_days_active,
+        ROUND(AVG(integrations_connected), 2)       AS avg_integrations_connected
+    FROM trials_subscriptions_converted
+    GROUP BY converted
+),
+
+features_unpivoted AS 
+(
+    SELECT 'templates_used'          AS feature,
+           MAX(CASE WHEN converted = 1 THEN avg_templates_used END)        AS avg_converted,
+           MAX(CASE WHEN converted = 0 THEN avg_templates_used END)        AS avg_not_converted
+    FROM converted_aggregated_metrics
+    UNION ALL
+    SELECT 'workflows_created'       AS feature,
+           MAX(CASE WHEN converted = 1 THEN avg_workflows_created END)     AS avg_converted,
+           MAX(CASE WHEN converted = 0 THEN avg_workflows_created END)     AS avg_not_converted
+    FROM converted_aggregated_metrics
+    UNION ALL
+    SELECT 'days_active_during_trial' AS feature,
+           MAX(CASE WHEN converted = 1 THEN avg_days_active END)           AS avg_converted,
+           MAX(CASE WHEN converted = 0 THEN avg_days_active END)           AS avg_not_converted
+    FROM converted_aggregated_metrics
+    UNION ALL
+    SELECT 'integrations_connected'  AS feature,
+           MAX(CASE WHEN converted = 1 THEN avg_integrations_connected END) AS avg_converted,
+           MAX(CASE WHEN converted = 0 THEN avg_integrations_connected END) AS avg_not_converted
+    FROM converted_aggregated_metrics
+),
+
+features_separation_ratio AS 
+(
+    SELECT
+        feature,
+        avg_converted,
+        avg_not_converted,
+        ROUND(avg_converted / NULLIF(avg_not_converted, 0), 2) AS separation_ratio
+    FROM features_unpivoted
+    ORDER BY separation_ratio DESC
+)
+
+SELECT * 
+FROM features_separation_ratio
+;

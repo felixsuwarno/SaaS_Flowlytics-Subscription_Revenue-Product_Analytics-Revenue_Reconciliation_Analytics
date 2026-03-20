@@ -339,7 +339,10 @@ Next we generate the NRR calculations.
 - subscriptions 
 
 **SQL Method - Trial Users Activation Metrics by Conversion Status**
-- **Pull the converted dataset from the existing pipeline:** Start from **trials_subscriptions_converted** — this already has the four engagement features and the conversion flag for every trial customer.
+- **Pull all trial customers as the base population:** Filter the **trials** table to keep only **customer_id**. Each row represents one unique trial participant.
+- **Bring in engagement features:** Left join the trial population to **trial_engagement_summary** on **customer_id**. Keep **templates_used**, **workflows_created**, **days_active_during_trial**, and **integrations_connected**.
+- **Bring in subscription status:** Left join the result to subscriptions on **customer_id**. Keep **subscription_status**. Use a left join so trial customers with no subscription record are retained.
+- **Create the conversion flag:** Derive a new column from **subscription_status**, name it **converted**. Set it to 1 if **subscription_status** is **active** or **cancelled**, otherwise set it to 0.
 - **Compute average engagement by conversion status:** Group by **converted**. For each group compute:
   - **customer_count**              — total number of customers in each group
   - **avg_templates_used**          — average templates used

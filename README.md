@@ -47,9 +47,9 @@ Subscription revenue modeling (MRR movement and Net Revenue Retention), geograph
 
 **3. FINANCIAL DATA VALIDATION — DECEMBER 2025 BILLING AUDIT**
 
-  1. Which active subscriptions did not generate a billing invoice in December 2025?
-  2. Which December 2025 billing invoices were generated for subscriptions that were not active in that month?
-  3. Which December 2025 billing invoices have not been fully paid, or were paid later than the expected payment window?
+  1. Which active subscriptions did not generate a billing invoice in December 2025, and how much recurring revenue was not billed?
+  2. Which December 2025 billing invoices were generated for subscriptions that were not active that month, and how much was overbilled?
+  3. Which December 2025 billing invoices have not been fully paid or were paid outside the expected payment window, and how much billed revenue remains uncollected?
 
 <br>
 
@@ -396,16 +396,30 @@ Based on the two charts:
 
 ### 3 — FINANCIAL DATA VALIDATION — DECEMBER 2025 BILLING AUDIT
 
-**3-1 Which active subscriptions did not generate a billing invoice in December 2025?**
+**3-1 Which active subscriptions did not generate a billing invoice in December 2025, and how much recurring revenue was not billed?**
 
 **Tables used :**
 - subscriptions
 - billing_invoices
 - customers
 
+**SQL Method - Which Active Subscriptions Are Not Billed - "03_1a_Which_Active_Subs_Not_Billed.csv"**
+- Filter subscriptions to active records only: Filter the subscriptions table to keep only rows where subscription_status = 'active'. Retain subscription_id, customer_id, and plan_tier.
+- Filter billing invoices to December 2025: Filter the billing_invoices table to keep only rows where invoice_month falls within December 2025. Retain subscription_id only.
+- Identify active subscriptions with no December 2025 invoice: Left join the filtered subscriptions onto the filtered billing invoices using subscription_id as the join key. Retain only rows where no matching invoice exists. Retain subscription_id, customer_id, and plan_tier.
+- Assign expected invoice amount per subscription: From the gap records, derive a new column called expected_amount using plan_tier as the business rule — set to 29 for Starter, 79 for Growth, and 199 for Business. Retain subscription_id, customer_id, plan_tier, and expected_amount.
+
 **SQL Method**
-- **Filter subscriptions to active records only:** Filter the **subscriptions** table to keep only rows where **subscription_status** = '**active**'. Retain **subscription_id** and **customer_id**.
-- **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** falls within December 2025. Retain **subscription_id** and **invoice_id**.
-- **Identify active subscriptions with no December 2025 invoice:** Left join the filtered subscriptions onto the filtered billing invoices using **subscription_id** as the join key. Retain only rows where no matching invoice exists — these are the subscriptions that were active in December 2025 but received no invoice that month.
-- **Join customer and plan context back to the gap records:** Join the gap records to the original subscriptions table on **subscription_id** to bring in **plan_tier**. Then join to the **customers** table on **customer_id** to bring in state. Retain **subscription_id**, **customer_id**, **plan_tier**, and **state**.
+- **Filter subscriptions to active records only:** Filter the **subscriptions** table to keep only rows where subscriptio****n_status = '**active**'. Retain **subscription_id**, **customer_id**, and **plan_tier**.
+- **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** falls within December 2025. Retain **subscription_id** only.
+- **Identify active subscriptions with no December 2025 invoice:** Left join the filtered subscriptions onto the filtered billing invoices using **subscription_id** as the join key. Retain only rows where no matching invoice exists. Retain **subscription_id**, **customer_id**, and **plan_tier**.
+- **Assign expected invoice amount per subscription:** From the gap records, derive a new column called **expected_amount** using **plan_tier** as the business rule — set to 29 for **Starter**, 79 for **Growth**, and 199 for **Business**.
+- **Aggregate revenue leakage by plan tier:** Group by **plan_tier** and calculate two metrics:
+  - **subscription_count**: the number of active subscriptions with no December 2025 invoice in that tier
+  - **revenue_not_billed**: the sum of expected_amount across all gap subscriptions in that tier
+
+
+
+
+
 

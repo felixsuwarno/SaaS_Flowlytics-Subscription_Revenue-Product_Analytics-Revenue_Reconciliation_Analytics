@@ -409,7 +409,7 @@ Based on the two charts:
 - **Identify active subscriptions with no December 2025 invoice:** Left join the filtered subscriptions onto the filtered billing invoices using **subscription_id** as the join key. Retain only rows where no matching invoice exists. Retain **subscription_id**, **customer_id**, and **plan_tier**.
 - **Assign expected invoice amount per subscription:** From the gap records, derive a new column called **expected_amount** using **plan_tier** as the business rule — set to 2**Starter** = 29, **Growth** = 79, and **Business** = 199. Retain **subscription_id**, **customer_id**, **plan_tier**, and **expected_amount**.
 
-**SQL Method - How much recurring revenue was not billed**
+**SQL Method - How Much was the Missing Bill**
 - **Load the billing gap records:** Read from **03_1a_Which_Active_Subs_Not_Billed** which contains all active subscriptions with no December 2025 invoice and their expected_amount. Retain **plan_tier** and **expected_amount**.
 - **Aggregate revenue leakage by plan tier:** Group by **plan_tier** and calculate two metrics:
   - **subscription_count:** the number of active subscriptions with no December 2025 invoice in that tier

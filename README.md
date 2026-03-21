@@ -45,11 +45,11 @@ Subscription revenue modeling (MRR movement and Net Revenue Retention), geograph
   2. Is the difference in trial-to-paid conversion between the control and treatment groups statistically significant?
   3. What user characteristics are associated with trial-to-paid conversion?
 
-**3. FINANCIAL DATA VALIDATION**
+**3. FINANCIAL DATA VALIDATION — DECEMBER 2025 BILLING AUDIT**
 
-  1. Which active subscriptions did not generate a billing invoice in the expected billing month?
-  2. Which billing invoices were generated for subscriptions that were not active in the billing period?
-  3. Which billing invoices have not been fully paid, or were paid later than the expected payment window?
+  1. Which active subscriptions did not generate a billing invoice in December 2025?
+  2. Which December 2025 billing invoices were generated for subscriptions that were not active in that month?
+  3. Which December 2025 billing invoices have not been fully paid, or were paid later than the expected payment window?
 
 <br>
 
@@ -388,6 +388,24 @@ Based on the two charts:
 - **Use integration connection as the early warning signal.** Integrations connected is the most linear predictor — even one integration meaningfully increases conversion probability. Flag trial users who have not connected any integration by day 3 and trigger a re-engagement nudge.
 - **Focus re-engagement efforts on users who are not returning.** Days active at Q4 has the highest conversion rate at 68%. Users who stop logging in after day 1 or 2 are very unlikely to convert. An automated email or in-app prompt targeting inactive trial users could recover a meaningful portion of that group.
 
-<br><br>
+<br>
 
+---
+
+<br>
+
+### 3 — FINANCIAL DATA VALIDATION — DECEMBER 2025 BILLING AUDIT
+
+**3-1 Which active subscriptions did not generate a billing invoice in December 2025?**
+
+**Tables used :**
+- subscriptions
+- billing_invoices
+- customers
+
+**SQL Method**
+- **Filter subscriptions to active records only:** Filter the **subscriptions** table to keep only rows where **subscription_status** = '**active**'. Retain **subscription_id** and **customer_id**.
+- **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** falls within December 2025. Retain **subscription_id** and **invoice_id**.
+- **Identify active subscriptions with no December 2025 invoice:** Left join the filtered subscriptions onto the filtered billing invoices using **subscription_id** as the join key. Retain only rows where no matching invoice exists — these are the subscriptions that were active in December 2025 but received no invoice that month.
+- **Join customer and plan context back to the gap records:** Join the gap records to the original subscriptions table on **subscription_id** to bring in **plan_tier**. Then join to the **customers** table on **customer_id** to bring in state. Retain **subscription_id**, **customer_id**, **plan_tier**, and **state**.
 

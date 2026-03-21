@@ -404,19 +404,16 @@ Based on the two charts:
 - customers
 
 **SQL Method - Which Active Subscriptions Are Not Billed - "03_1a_Which_Active_Subs_Not_Billed.csv"**
-- Filter subscriptions to active records only: Filter the subscriptions table to keep only rows where subscription_status = 'active'. Retain subscription_id, customer_id, and plan_tier.
-- Filter billing invoices to December 2025: Filter the billing_invoices table to keep only rows where invoice_month falls within December 2025. Retain subscription_id only.
-- Identify active subscriptions with no December 2025 invoice: Left join the filtered subscriptions onto the filtered billing invoices using subscription_id as the join key. Retain only rows where no matching invoice exists. Retain subscription_id, customer_id, and plan_tier.
-- Assign expected invoice amount per subscription: From the gap records, derive a new column called expected_amount using plan_tier as the business rule — set to 29 for Starter, 79 for Growth, and 199 for Business. Retain subscription_id, customer_id, plan_tier, and expected_amount.
-
-**SQL Method**
-- **Filter subscriptions to active records only:** Filter the **subscriptions** table to keep only rows where subscriptio****n_status = '**active**'. Retain **subscription_id**, **customer_id**, and **plan_tier**.
+- **Filter subscriptions to active records only:** Filter the subscriptions table to keep only rows where subscription_status = '**active**'. Retain **subscription_id**, **customer_id**, and **plan_tier**.
 - **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** falls within December 2025. Retain **subscription_id** only.
 - **Identify active subscriptions with no December 2025 invoice:** Left join the filtered subscriptions onto the filtered billing invoices using **subscription_id** as the join key. Retain only rows where no matching invoice exists. Retain **subscription_id**, **customer_id**, and **plan_tier**.
-- **Assign expected invoice amount per subscription:** From the gap records, derive a new column called **expected_amount** using **plan_tier** as the business rule — set to 29 for **Starter**, 79 for **Growth**, and 199 for **Business**.
+- **Assign expected invoice amount per subscription:** From the gap records, derive a new column called **expected_amount** using **plan_tier** as the business rule — set to 2**Starter** = 29, **Growth** = 79, and **Business** = 199. Retain **subscription_id**, **customer_id**, **plan_tier**, and **expected_amount**.
+
+**SQL Method - How much recurring revenue was not billed**
+- **Load the billing gap records:** Read from **03_1a_Which_Active_Subs_Not_Billed** which contains all active subscriptions with no December 2025 invoice and their expected_amount. Retain **plan_tier** and **expected_amount**.
 - **Aggregate revenue leakage by plan tier:** Group by **plan_tier** and calculate two metrics:
-  - **subscription_count**: the number of active subscriptions with no December 2025 invoice in that tier
-  - **revenue_not_billed**: the sum of expected_amount across all gap subscriptions in that tier
+  - **subscription_count:** the number of active subscriptions with no December 2025 invoice in that tier
+  - **revenue_not_billed:** the sum of expected_amount across all gap subscriptions in that tier
 
 
 

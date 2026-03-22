@@ -410,7 +410,8 @@ Based on the two charts:
 - **Assign expected invoice amount per subscription:** From the gap records, derive a new column called **expected_amount** using **plan_tier** as the business rule — set to 2**Starter** = 29, **Growth** = 79, and **Business** = 199. Retain **subscription_id**, **customer_id**, **plan_tier**, and **expected_amount**.
 
 The answer of this business question is here :
-"03_1a_Which_Active_Subs_Not_Billed.csv" -> this contains 70 subscriptions_id which are not billed properly in December 2025.
+[03_1a_Which_Active_Subs_Not_Billed.csv](https://raw.githubusercontent.com/felixsuwarno/SaaS_Flowlytics-Subscription_Revenue-Product_Analytics-Revenue_Reconciliation_Analytics/refs/heads/main/Data_Generated/03_1a_Which_Active_Subs_Not_Billed.csv)
+-> this contains 70 subscriptions_id which are not billed properly in December 2025.
 
 **SQL Method - How Much was the Missing Bill**
 - **Load the billing gap records:** Read from **03_1a_Which_Active_Subs_Not_Billed** which contains all active subscriptions with no December 2025 invoice and their expected_amount. Retain **plan_tier** and **expected_amount**.

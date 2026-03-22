@@ -500,17 +500,19 @@ Based on the two charts:
 **SQL Method**
 
 - **Filter billing_invoices table to keep only December 2025 invoices:** Reduce the billing table to the invoice records needed for the audit.
-  - Keep **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, and **invoice_amount** and retain only rows where **invoice_month** is December 2025.
-- **Aggregate payments to the invoice level:** Summarize payment activity so each invoice has one payment record.
+  - Keep **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, and **invoice_amount**.
+  - Retain only rows where **invoice_month** is in December 2025.
+- **Aggregate payments table to the invoice level:** Summarize payment activity so each invoice has one payment summary record.
   - Group by **invoice_id**.
   - Create **total_paid_amount** as the sum of payment_amount.
-  - Create **latest_payment_date** as the maximum payment_date.
-  - Create **max_days_to_pay** as the maximum days_to_pay.
-- **Join invoices, payments, and subscriptions, then create audit flags and filter target invoices:** Identify invoices that are not fully paid or paid late using a defined rule.
-  - Join December 2025 invoices to the payment summary using **invoice_id**.
-  - Join the result to subscriptions using **subscription_id** to bring in plan_tier.
-  - Create paid_in_full_flag and set to 1 when **total_paid_amount** is greater than or equal to **invoice_amount**; otherwise 0.
-  - Create **paid_late_flag** and set to 1 when **max_days_to_pay** > 30; otherwise 0.
-  - Create **uncollected_amount** as **invoice_amount** minus **total_paid_amount**, treating missing payment values as 0.
+  - Create **latest_payment_date** as the latest payment_date.
+  - Create **max_days_to_pay** as the maximum **days_to_pay**.
+- **Join invoices, payments, and subscriptions in one step:** Bring together billed invoices, payment results, and plan tier for evaluation.
+  - Join **billing_invoices_filtered** to **payments_aggregated** using **invoice_id**.
+  - Join the result to subscriptions using **subscription_id**.
+  - Bring together **invoice_id**, **subscription_id**, **customer_id**, **plan_tier**, **invoice_month**, **invoice_amount**, **total_paid_amount**, **latest_payment_date**, and **max_days_to_pay**.
+- **Create payment audit fields and filter to final result in the same step:** Produce the final dataset that answers the business question.
+  - Create **paid_in_full_flag** and set it to 1 when **total_paid_amount** is greater than or equal to **invoice_amount**; otherwise set it to 0.
+  - Create **paid_late_flag** and set it to 1 when **max_days_to_pay** is greater than 30; otherwise set it to 0.
+  - Create **uncollected_amount** as invoice_amount minus **total_paid_amount**, treating missing payment amounts as 0.
   - Retain only rows where **paid_in_full_flag** = 0 or **paid_late_flag** = 1.
-- **Filter the joined invoice audit table to keep only invoices that were not fully paid or were paid late:** Identify the invoices that match the business question. Retain only rows where paid_in_full_flag = 0 or paid_late_flag = 1.

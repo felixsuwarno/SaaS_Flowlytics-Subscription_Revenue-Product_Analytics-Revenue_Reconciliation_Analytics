@@ -462,3 +462,11 @@ Based on the two charts:
   - Bring together **invoice_id**, **subscription_id**, **customer_id**, **invoice_amount** , and **active_in_dec_2025**, and retain only rows where **active_in_dec_2025** = 0`.
 
 
+**SQL Method - How Much was the Overbill ?**
+
+- **Aggregate overbilled invoices to calculate total overbilled amount:** Summarize the total billed revenue from subscriptions that were not active in December 2025.
+  - Use the table **03_2a_Which_Inactive_Subs_Are_Billed**
+  - Create **overbilled_amount** as the sum of invoice_amount
+- Return final overbilling result: Output the total overbilled amount for December 2025.
+  - Select the aggregated result for reporting
+

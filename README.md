@@ -448,19 +448,14 @@ Python is used to visualize the data, there is no data modeling steps needed.
 
 **SQL Method - Which inactive subscriptions are billed?**
 
-- **Filter billing_invoices table to keep only December 2025 invoices:** Reduce the billing table to the invoice records needed for this audit.
-  - Keep `**invoice_id**`, `**subscription_id**`, `**customer_id**`, `**invoice_month**`, and `**invoice_amount**`.
-  - Retain only rows where `**invoice_month**` is December 2025.
-- **Filter subscription_events table to keep churn events that determine whether a subscription stopped being active before December 2025:** Reduce the event table to the cancellation timing needed for the activity test.
-  - Keep `**subscription_id**`, `**event_date**`, and `**event_type**`, and retain only rows where `**event_type** = '**churn**'`.
-- **Create a subscription-level December 2025 activity flag using churn timing:** Label each subscription as active in December 2025 or not active in December 2025 based on whether it churned before the month began.
-  - Group by **subscription_id**.
-  - Create **first_churn_date**, which is the earliest churn date for the subscription, by taking the minimum value of **event_date** from the **subscription_events** table where **event_type** = '**churn**'
-  - Create `**active_in_dec_2025**` and set it to 0 when `**first_churn_date**` is before December 1, 2025; otherwise set it to 1.
-- **Join December 2025 invoices to the subscription activity table and keep only invoices billed to subscriptions that were not active that month:** Identify the invoice records that were generated for subscriptions already churned before December 2025.
-  - Join the December 2025 invoices table to the subscription activity table using `**subscription_id**`.
-  - Bring together **invoice_id**, **subscription_id**, **customer_id**, **invoice_amount** , and **active_in_dec_2025**, and retain only rows where **active_in_dec_2025** = 0`.
-
+- **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** falls within December 2025. Retain **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, and **invoice_amount**.
+- **Filter subscription events to churn events only:** Filter the **subscription_events** table to keep only rows where **event_type** = '**churn**'. Retain **subscription_id** and **event_date**.
+- **Build December 2025 activity flag per subscription:** Left join all subscriptions against the churn events on **subscription_id**. Retain **subscription_id**, **customer_id**, **subscription_start**, **subscription_status**, and **first_churn_date**.
+  - Set **active_in_dec_2025** to 0 if subscription_start > '2025-12-31' — subscription did not yet exist in December 2025
+  - Set **active_in_dec_2025** to 0 if the earliest churn event occurred before '2025-12-01' — subscription was already churned before December
+  - Set **active_in_dec_2025** to 0 if subscription_status = 'cancelled' — subscription is marked inactive regardless of churn event presence
+  - Otherwise set **active_in_dec_2025** to 1
+- **Identify December invoices issued to inactive subscriptions:** Left join the filtered December invoices against the activity flag on **subscription_id**. Retain only rows where **active_in_dec_2025** = 0, defaulting to 0 via COALESCE where no activity flag record exists. Retain **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, **invoice_amount**, **first_churn_date**, and **active_in_dec_2025**.
 
 **SQL Method - How Much was the Overbill ?**
 

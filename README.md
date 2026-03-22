@@ -429,7 +429,10 @@ Python is used to visualize the data, there is no data modeling steps needed.
 </p>
 
 **Key Insights**
-
+- **Starter tier is the main problem:** 76% of unbilled subscriptions (19/25) and 48% of lost revenue ($551)
+- **Growth tier is second:** only 20% of subs (5) but 34% of lost revenue ($395) → higher value per miss
+- **Business tier is minimal:** 4% of subs (1) and 17% of revenue ($199)
+- Overall issue is volume-driven, concentrated in Starter (many small misses, not a few big ones)
 
 <br>
 

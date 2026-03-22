@@ -476,10 +476,9 @@ Python is used to visualize the data, there is no data modeling steps needed.
 
 **Key Insights**
 Based on the two charts:
-- Growth and Business tiers drive most of the financial impact, contributing 82% of overbilled revenue.
-- Starter tier is primarily a volume issue, accounting for 45% of affected subscriptions but only 18% of overbilled revenue.
-- Growth tier is the largest overall contributor, with the highest total overbilled amount ($1,027) and a balanced share of impact across volume and revenue.
-- The issue splits into two patterns: Starter reflects frequent small errors, while Business reflects infrequent but high-dollar errors.
+- **Overbilling is a revenue liability, not a volume problem.** 33 inactive subscriptions were billed in December 2025 — $2,457 in charges that need to be reversed.
+- **Starter dominates by count, contributes least by dollar.** 15 subscriptions (45%) but only $435 (18%). Same pattern as the billing gap — high volume, low unit value.
+- **Growth and Business are the priority.** Growth: 13 subscriptions, $1,027 (42%). Business: 5 subscriptions, $995 (40%). Together they represent 82% of overbilled revenue from just 55% of affected subscriptions.
 
 <br>
 

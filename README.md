@@ -476,7 +476,6 @@ Python is used to visualize the data, there is no data modeling steps needed.
 
 **Key Insights**
 Based on the two charts:
-- **Overbilling is a revenue liability, not a volume problem.** 33 inactive subscriptions were billed in December 2025 — $2,457 in charges that need to be reversed.
 - **Starter dominates by count, contributes least by dollar.** 15 subscriptions (45%) but only $435 (18%). Same pattern as the billing gap — high volume, low unit value.
 - **Growth and Business are the priority.** Growth: 13 subscriptions, $1,027 (42%). Business: 5 subscriptions, $995 (40%). Together they represent 82% of overbilled revenue from just 55% of affected subscriptions.
 

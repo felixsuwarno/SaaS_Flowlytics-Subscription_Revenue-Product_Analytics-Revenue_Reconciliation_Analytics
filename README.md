@@ -484,4 +484,36 @@ Based on the two charts:
 - Growth tier is the largest overall contributor, with the highest total overbilled amount ($1,027) and a balanced share of impact across volume and revenue.
 - The issue splits into two patterns: Starter reflects frequent small errors, while Business reflects infrequent but high-dollar errors.
 
+<br>
 
+---
+
+<br>
+
+**3-3 Which December 2025 billing invoices have not been fully paid or were paid outside the expected payment window, and how much billed revenue remains uncollected?**
+
+**Tables used :**
+- subscriptions
+- billing_invoices
+- payments
+
+**SQL Method**
+
+- **Filter billing_invoices table to keep only December 2025 invoices:** Reduce the billing table to the invoice records needed for the audit.
+  - Keep **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, and **invoice_amount** and retain only rows where **invoice_month** is December 2025.
+- Filter payments table to keep fields needed for payment evaluation: Reduce the payments table to the data required to assess collection and timing.
+  - Keep **invoice_id**, **payment_date**, **payment_amount**, **payment_status**, and **days_to_pay**.
+- **Filter subscriptions table to attach plan tier:** Reduce the subscriptions table to the columns needed for categorization.
+  - Keep **subscription_id** and **plan_tier**.
+- **Aggregate payments to the invoice level:** Summarize payment activity so each invoice has one payment record.
+  - Group by **invoice_id**.
+  - Create **total_paid_amount** as the sum of payment_amount.
+  - Create **latest_payment_date** as the maximum payment_date.
+  - Create **max_days_to_pay** as the maximum days_to_pay.
+- **Join invoices, payments, and subscriptions, then create audit flags and filter target invoices:** Identify invoices that are not fully paid or paid late using a defined rule.
+  - Join December 2025 invoices to the payment summary using **invoice_id**.
+  - Join the result to subscriptions using **subscription_id** to bring in plan_tier.
+  - Create paid_in_full_flag and set to 1 when **total_paid_amount** is greater than or equal to **invoice_amount**; otherwise 0.
+  - Create **paid_late_flag** and set to 1 when **max_days_to_pay** > 30; otherwise 0.
+  - Create **uncollected_amount** as **invoice_amount** minus **total_paid_amount**, treating missing payment values as 0.
+  - Retain only rows where **paid_in_full_flag** = 0 or **paid_late_flag** = 1.

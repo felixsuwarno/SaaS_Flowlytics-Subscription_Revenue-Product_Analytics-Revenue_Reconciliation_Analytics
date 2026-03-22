@@ -1,0 +1,30 @@
+WITH inactive_subs_billed_with_plan_tier AS 
+(
+    SELECT
+        i.invoice_id,
+        i.subscription_id,
+        i.customer_id,
+        s.plan_tier,
+        i.invoice_month,
+        i.invoice_amount,
+        i.first_churn_date,
+        i.active_in_dec_2025
+    FROM "03_2a_Which_Inactive_Subs_Are_Billed" AS i
+    LEFT JOIN subscriptions AS s
+        ON i.subscription_id = s.subscription_id
+),
+
+overbilled_by_plan_tier AS 
+(
+    SELECT
+        plan_tier,
+        COUNT(DISTINCT subscription_id) AS overbilled_subscription_count,
+        SUM(invoice_amount) AS overbilled_amount
+    FROM inactive_subs_billed_with_plan_tier
+    GROUP BY
+        plan_tier
+	ORDER BY overbilled_subscription_count DESC
+)
+
+SELECT *
+FROM overbilled_by_plan_tier;

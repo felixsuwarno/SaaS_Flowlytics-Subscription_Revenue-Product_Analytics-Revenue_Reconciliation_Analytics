@@ -1,0 +1,60 @@
+WITH billing_invoices_filtered AS 
+(
+    SELECT
+        invoice_id,
+        subscription_id,
+        customer_id,
+        invoice_month::date AS invoice_month,
+        invoice_amount
+    FROM billing_invoices
+    WHERE DATE_TRUNC('month', invoice_month::date) = '2025-12-01'::date
+),
+
+subscription_events_filtered AS 
+(
+    SELECT
+        subscription_id,
+        event_date::date AS event_date
+    FROM subscription_events
+    WHERE event_type = 'churn'
+),
+
+subscriptions_dec_2025_activity_flag AS 
+(
+    SELECT
+        s.subscription_id,
+        s.customer_id,
+        s.subscription_start::date AS subscription_start,
+        MIN(se.event_date) AS first_churn_date,
+        CASE
+            WHEN s.subscription_start::date > '2025-12-31'::date THEN 0
+            WHEN MIN(se.event_date) < '2025-12-01'::date THEN 0
+            ELSE 1
+        END AS active_in_dec_2025
+    FROM subscriptions AS s
+    LEFT JOIN subscription_events_filtered AS se
+        ON s.subscription_id = se.subscription_id
+    GROUP BY
+        s.subscription_id,
+        s.customer_id,
+        s.subscription_start::date
+),
+
+billing_invoices_not_active_dec_2025 AS 
+(
+    SELECT
+        bif.invoice_id,
+        bif.subscription_id,
+        bif.customer_id,
+        bif.invoice_month,
+        bif.invoice_amount,
+        sdf.first_churn_date,
+        COALESCE(sdf.active_in_dec_2025, 0) AS active_in_dec_2025
+    FROM billing_invoices_filtered AS bif
+    LEFT JOIN subscriptions_dec_2025_activity_flag AS sdf
+        ON bif.subscription_id = sdf.subscription_id
+    WHERE COALESCE(sdf.active_in_dec_2025, 0) = 0
+)
+
+SELECT *
+FROM billing_invoices_not_active_dec_2025;

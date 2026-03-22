@@ -499,25 +499,24 @@ Based on the two charts:
 
 **SQL Method - Which December 2025 billing invoices have not been paid or were paid outside the expected payment window (30 days )?**
 
-- Filter billing_invoices table to keep only December 2025 invoices: Reduce billing_invoices to the fields needed for the audit and retain only rows where invoice_month = '2025-12-01'.
-  - Keep: invoice_id, subscription_id, customer_id, invoice_month, invoice_amount
-- Filter payments table to keep relevant payment records: Reduce payments to the fields needed for collection analysis and retain only rows where payment_date >= '2025-12-01'.
-  - Keep: invoice_id, payment_amount, days_to_pay
-- Aggregate payments at the invoice level: Group payments by invoice_id to create invoice-level payment metrics.
-  - Group by: invoice_id
-  - Create total_paid → total payment_amount collected per invoice
-  - Create max_days_to_pay → maximum days_to_pay per invoice
-- Join filtered invoices with aggregated payments: Combine December invoices with payment metrics to evaluate collection status for each invoice.
-  - Join: invoices_filtered with payments_aggregated_metrics on invoice_id
-  - Keep total_paid, max_days_to_pay
+- **Filter billing_invoices table to keep only December 2025 invoices:** Reduce **billing_invoices** to the fields needed for the audit and retain only rows where **invoice_month** = '2025-12-01'.
+  - Keep: **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, **invoice_amount**
+- **Filter payments table to keep relevant payment records:** Reduce payments to the fields needed for collection analysis and retain only rows where **payment_date** >= '2025-12-01'.
+  - Keep: **invoice_id**, **payment_amount**, **days_to_pay**
+- **Aggregate payments at the invoice level:** Group payments by **invoice_id** to create invoice-level payment metrics.
+  - Group by: **invoice_id**
+  - Create **total_paid**, defined as the sum total of **payment_amount** collected per invoice
+  - Create **max_days_to_pay**, defined as the longest number of days it took for any payment tied to the invoice to be made.
+- **Join filtered invoices with aggregated payments:** Combine December invoices with payment metrics to evaluate collection status for each invoice.
+  - Join: **invoices_filtered** with **payments_aggregated_metrics** on **invoice_id**
+  - Keep **total_paid**, **max_days_to_pay**
   - Set total_paid to 0 when no payment exists
-- Create payment issue classification and outstanding balance: Assign a payment_issue_type based on payment behavior and calculate remaining balance.
+- **Create payment issue classification and outstanding balance:** Assign a **payment_issue_type** based on payment behavior and calculate remaining balance.
   - Create payment_issue_type:
-    - Set to Unpaid when total_paid = 0
-    - Set to Partially Paid when total_paid > 0 and total_paid < invoice_amount
-    - Set to Late Payment when total_paid >= invoice_amount and max_days_to_pay > 30
-  - Create amount_outstanding
-    - Set as invoice_amount minus total_paid
-- Filter to invoices with payment issues: Retain only rows where payment_issue_type is not null.
+    - WHEN **total_paid** = 0, SET **payment_issue_type** to 'Unpaid'
+    - WHEN **total_paid** > 0 and **total_paid** < **invoice_amount**, SET **payment_issue_type** to '**Partially Paid**'
+    - WHEN **total_paid** >= **invoice_amount** and **max_days_to_pay** > 30, SET **payment_issue_type** to '**Late Payment**'
+  - Create **amount_outstanding**, defined as **invoice_amount** - **total_paid**.
+- **Filter to invoices with payment issues:** Retain only rows where **payment_issue_type** is not null.
 
-- 
+  

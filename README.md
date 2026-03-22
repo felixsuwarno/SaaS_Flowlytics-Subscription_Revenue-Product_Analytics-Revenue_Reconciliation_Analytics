@@ -403,11 +403,14 @@ Based on the two charts:
 - billing_invoices
 - customers
 
-**SQL Method - Which Active Subscriptions Are Not Billed - "03_1a_Which_Active_Subs_Not_Billed.csv"**
+**SQL Method - Which Active Subscriptions Are Not Billed ?**
 - **Filter subscriptions to active records only:** Filter the subscriptions table to keep only rows where subscription_status = '**active**'. Retain **subscription_id**, **customer_id**, and **plan_tier**.
 - **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** falls within December 2025. Retain **subscription_id** only.
 - **Identify active subscriptions with no December 2025 invoice:** Left join the filtered subscriptions onto the filtered billing invoices using **subscription_id** as the join key. Retain only rows where no matching invoice exists. Retain **subscription_id**, **customer_id**, and **plan_tier**.
 - **Assign expected invoice amount per subscription:** From the gap records, derive a new column called **expected_amount** using **plan_tier** as the business rule — set to 2**Starter** = 29, **Growth** = 79, and **Business** = 199. Retain **subscription_id**, **customer_id**, **plan_tier**, and **expected_amount**.
+
+The answer of this business question is here :
+"03_1a_Which_Active_Subs_Not_Billed.csv" -> this contains 70 subscriptions_id which are not billed properly in December 2025.
 
 **SQL Method - How Much was the Missing Bill**
 - **Load the billing gap records:** Read from **03_1a_Which_Active_Subs_Not_Billed** which contains all active subscriptions with no December 2025 invoice and their expected_amount. Retain **plan_tier** and **expected_amount**.
@@ -415,8 +418,8 @@ Based on the two charts:
   - **subscription_count:** the number of active subscriptions with no December 2025 invoice in that tier
   - **revenue_not_billed:** the sum of expected_amount across all gap subscriptions in that tier
 
-
-
+**Python Method**
+Python is used to visualize the data, there is no data modeling steps needed.
 
 
 

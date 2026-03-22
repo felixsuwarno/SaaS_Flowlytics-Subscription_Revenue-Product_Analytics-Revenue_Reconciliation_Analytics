@@ -1,0 +1,18 @@
+WITH billing_gap_records AS (
+    SELECT
+        plan_tier,
+        expected_amount
+    FROM "03_1a_Which_Active_Subs_Not_Billed"
+),
+
+billing_gap_aggregated_metrics AS (
+    SELECT
+        plan_tier,
+        COUNT(*)                AS subscription_count,
+        SUM(expected_amount)    AS revenue_not_billed
+    FROM billing_gap_records
+    GROUP BY plan_tier
+	ORDER BY subscription_count DESC
+)
+
+SELECT * FROM billing_gap_aggregated_metrics;

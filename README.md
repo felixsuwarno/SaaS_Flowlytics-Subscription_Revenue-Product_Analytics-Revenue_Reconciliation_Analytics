@@ -501,7 +501,7 @@ Based on the two charts:
 
 - **Filter billing_invoices table to keep only December 2025 invoices:** Reduce the billing table to the invoice records needed for the audit.
   - Keep **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, and **invoice_amount** and retain only rows where **invoice_month** is December 2025.
-- Filter payments table to keep fields needed for payment evaluation: Reduce the payments table to the data required to assess collection and timing.
+- **Filter payments table to keep fields needed for payment evaluation:** Reduce the payments table to the data required to assess collection and timing.
   - Keep **invoice_id**, **payment_date**, **payment_amount**, **payment_status**, and **days_to_pay**.
 - **Filter subscriptions table to attach plan tier:** Reduce the subscriptions table to the columns needed for categorization.
   - Keep **subscription_id** and **plan_tier**.

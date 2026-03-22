@@ -404,10 +404,12 @@ Based on the two charts:
 - customers
 
 **SQL Method - Which Active Subscriptions Are Not Billed ?**
-- **Filter subscriptions to active records only:** Filter the subscriptions table to keep only rows where subscription_status = '**active**'. Retain **subscription_id**, **customer_id**, and **plan_tier**.
-- **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** falls within December 2025. Retain **subscription_id** only.
-- **Identify active subscriptions with no December 2025 invoice:** Left join the filtered subscriptions onto the filtered billing invoices using **subscription_id** as the join key. Retain only rows where no matching invoice exists. Retain **subscription_id**, **customer_id**, and **plan_tier**.
-- **Assign expected invoice amount per subscription:** From the gap records, derive a new column called **expected_amount** using **plan_tier** as the business rule — set to 2**Starter** = 29, **Growth** = 79, and **Business** = 199. Retain **subscription_id**, **customer_id**, **plan_tier**, and **expected_amount**.
+- **Filter subscriptions to those active during December 2025:** Filter the subscriptions table to keep only rows where **subscription_status** = '**active**' and **subscription_start** <= '2025-12-31'. Retain **subscription_id**, **customer_id**, and **plan_tier**.
+- **Identify subscriptions that churned before December 2025:** Filter the subscription_events table to keep only rows where **event_type** = '**churn**' and **event_date** < '2025-12-01'. Retain **subscription_id** only as a disqualification list.
+- **Remove pre-December churned subscriptions:** Left join the filtered subscriptions against the churn disqualification list on **subscription_id**. Retain only rows where no matching churn record exists. Retain **subscription_id**, **customer_id**, and **plan_tier**.
+- **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** >= '2025-12-01' and **invoice_month** < '2026-01-01'. Retain **subscription_id** only.
+- **Identify active subscriptions with no December 2025 invoice:** Left join the churn-excluded subscriptions against the filtered December invoices on **subscription_id**. Retain only rows where no matching invoice exists. Retain **subscription_id**, **customer_id**, and **plan_tier**.
+- **Assign expected invoice amount per subscription:** Derive a new column called **expected_amount** using **plan_tier** as the business rule — Starter = 29, Growth = 79, Business = 199. Order by **plan_tier** and **subscription_id**.
 
 The answer of this business question is here :
 [03_1a_Which_Active_Subs_Not_Billed.csv](https://raw.githubusercontent.com/felixsuwarno/SaaS_Flowlytics-Subscription_Revenue-Product_Analytics-Revenue_Reconciliation_Analytics/refs/heads/main/Data_Generated/03_1a_Which_Active_Subs_Not_Billed.csv)
@@ -427,11 +429,7 @@ Python is used to visualize the data, there is no data modeling steps needed.
 </p>
 
 **Key Insights**
-Based on the two charts:
-- **The problem is concentrated in Starter by volume but not by value.** 50 of the 70 unbilled subscriptions (71%) are Starter tier. But Starter only accounts for $1,450 of the $3,630 gap (40%). The gap is wide but cheap per subscription — each Starter miss is only $29.
-- **Business tier is the priority to fix first.** Only 5 subscriptions missed billing, but each one is $199. That's $995 in missed revenue from just 7% of the affected subscriptions. Highest revenue impact per case.
-- **Growth tier is the middle problem — moderate volume, moderate value.** 15 subscriptions, $1,185 missed. At $79 each it sits between the other two. Not urgent per case but meaningful in aggregate — it's actually the second largest revenue gap at 33%.
-- **The operational takeaway:** If you're triaging this audit, fix Business first (high value, few records), then Growth, then Starter. Volume alone is a misleading priority signal here.
+
 
 <br>
 

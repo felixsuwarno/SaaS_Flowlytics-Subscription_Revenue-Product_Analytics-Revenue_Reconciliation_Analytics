@@ -501,10 +501,6 @@ Based on the two charts:
 
 - **Filter billing_invoices table to keep only December 2025 invoices:** Reduce the billing table to the invoice records needed for the audit.
   - Keep **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, and **invoice_amount** and retain only rows where **invoice_month** is December 2025.
-- **Filter payments table to keep fields needed for payment evaluation:** Reduce the payments table to the data required to assess collection and timing.
-  - Keep **invoice_id**, **payment_date**, **payment_amount**, **payment_status**, and **days_to_pay**.
-- **Filter subscriptions table to attach plan tier:** Reduce the subscriptions table to the columns needed for categorization.
-  - Keep **subscription_id** and **plan_tier**.
 - **Aggregate payments to the invoice level:** Summarize payment activity so each invoice has one payment record.
   - Group by **invoice_id**.
   - Create **total_paid_amount** as the sum of payment_amount.
@@ -517,3 +513,4 @@ Based on the two charts:
   - Create **paid_late_flag** and set to 1 when **max_days_to_pay** > 30; otherwise 0.
   - Create **uncollected_amount** as **invoice_amount** minus **total_paid_amount**, treating missing payment values as 0.
   - Retain only rows where **paid_in_full_flag** = 0 or **paid_late_flag** = 1.
+- **Filter the joined invoice audit table to keep only invoices that were not fully paid or were paid late:** Identify the invoices that match the business question. Retain only rows where paid_in_full_flag = 0 or paid_late_flag = 1.

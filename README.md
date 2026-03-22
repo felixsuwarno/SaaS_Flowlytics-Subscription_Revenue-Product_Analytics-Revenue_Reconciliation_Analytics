@@ -433,3 +433,32 @@ Based on the two charts:
 - **Growth tier is the middle problem — moderate volume, moderate value.** 15 subscriptions, $1,185 missed. At $79 each it sits between the other two. Not urgent per case but meaningful in aggregate — it's actually the second largest revenue gap at 33%.
 - **The operational takeaway:** If you're triaging this audit, fix Business first (high value, few records), then Growth, then Starter. Volume alone is a misleading priority signal here.
 
+<br>
+
+---
+
+<br>
+
+**3-2 Which December 2025 billing invoices were generated for subscriptions that were not active that month, and how much was overbilled?**
+
+**Tables used :**
+- subscriptions
+- billing_invoices
+- subscription_events
+
+**SQL Method - Which inactive subscriptions are billed?**
+
+- **Filter billing_invoices table to keep only December 2025 invoices:** Reduce the billing table to the invoice records needed for this audit.
+  - Keep `**invoice_id**`, `**subscription_id**`, `**customer_id**`, `**invoice_month**`, and `**invoice_amount**`.
+  - Retain only rows where `**invoice_month**` is December 2025.
+- **Filter subscription_events table to keep churn events that determine whether a subscription stopped being active before December 2025:** Reduce the event table to the cancellation timing needed for the activity test.
+  - Keep `**subscription_id**`, `**event_date**`, and `**event_type**`, and retain only rows where `**event_type** = '**churn**'`.
+- **Create a subscription-level December 2025 activity flag using churn timing:** Label each subscription as active in December 2025 or not active in December 2025 based on whether it churned before the month began.
+  - Group by **subscription_id**.
+  - Create **first_churn_date**, which is the earliest churn date for the subscription, by taking the minimum value of **event_date** from the **subscription_events** table where **event_type** = '**churn**'
+  - Create `**active_in_dec_2025**` and set it to 0 when `**first_churn_date**` is before December 1, 2025; otherwise set it to 1.
+- **Join December 2025 invoices to the subscription activity table and keep only invoices billed to subscriptions that were not active that month:** Identify the invoice records that were generated for subscriptions already churned before December 2025.
+  - Join the December 2025 invoices table to the subscription activity table using `**subscription_id**`.
+  - Bring together **invoice_id**, **subscription_id**, **customer_id**, **invoice_amount** , and **active_in_dec_2025**, and retain only rows where **active_in_dec_2025** = 0`.
+
+

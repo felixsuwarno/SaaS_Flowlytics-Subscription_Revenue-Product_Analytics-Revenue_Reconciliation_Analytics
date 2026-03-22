@@ -480,7 +480,6 @@ Python is used to visualize the data, there is no data modeling steps needed.
 **Key Insights**
 Based on the two charts:
 - Growth and Business tiers drive most of the financial impact, contributing 82% of overbilled revenue.
-- Business tier has the highest severity, generating 40% of overbilled revenue from only 15% of affected subscriptions.
 - Starter tier is primarily a volume issue, accounting for 45% of affected subscriptions but only 18% of overbilled revenue.
 - Growth tier is the largest overall contributor, with the highest total overbilled amount ($1,027) and a balanced share of impact across volume and revenue.
 - The issue splits into two patterns: Starter reflects frequent small errors, while Business reflects infrequent but high-dollar errors.

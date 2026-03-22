@@ -470,3 +470,9 @@ Based on the two charts:
 - Return final overbilling result: Output the total overbilled amount for December 2025.
   - Select the aggregated result for reporting
 
+**Python Method**
+Python is used to visualize the data, there is no data modeling steps needed.
+
+<p align="center">
+  <img src="Charts/03_1_Billing_Gap_Audit_Dec2025.png" width="100%">
+</p>

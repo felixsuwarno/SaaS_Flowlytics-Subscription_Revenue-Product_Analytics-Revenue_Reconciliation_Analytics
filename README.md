@@ -1,4 +1,4 @@
-WIP - Work in Progress - March 20 2026
+WIP - Work in Progress - March 21 2026
 
 # SaaS Flowlytics - Subscription Revenue - Product Analytics - Revenue Reconciliation Analytics
 MRR Movement, Net Revenue Retention, Geographic Revenue Distribution, Onboarding Experiment Analysis, and Revenue & Billing Reconciliation
@@ -422,5 +422,14 @@ The answer of this business question is here :
 **Python Method**
 Python is used to visualize the data, there is no data modeling steps needed.
 
+<p align="center">
+  <img src="Charts/03_1_Billing_Gap_Audit_Dec2025.png" width="100%">
+</p>
 
+**Key Insights**
+Based on the two charts:
+- **The problem is concentrated in Starter by volume but not by value.** 50 of the 70 unbilled subscriptions (71%) are Starter tier. But Starter only accounts for $1,450 of the $3,630 gap (40%). The gap is wide but cheap per subscription — each Starter miss is only $29.
+- **Business tier is the priority to fix first.** Only 5 subscriptions missed billing, but each one is $199. That's $995 in missed revenue from just 7% of the affected subscriptions. Highest revenue impact per case.
+- **Growth tier is the middle problem — moderate volume, moderate value.** 15 subscriptions, $1,185 missed. At $79 each it sits between the other two. Not urgent per case but meaningful in aggregate — it's actually the second largest revenue gap at 33%.
+- **The operational takeaway:** If you're triaging this audit, fix Business first (high value, few records), then Growth, then Starter. Volume alone is a misleading priority signal here.
 

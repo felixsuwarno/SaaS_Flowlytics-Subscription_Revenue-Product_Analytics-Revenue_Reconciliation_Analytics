@@ -1,0 +1,7 @@
+payment_issue_type,plan_tier,invoice_count,total_billed,total_uncollected
+Late Payment,Business,64,12736,0.00
+Late Payment,Growth,119,9391,0.00
+Late Payment,Starter,175,5045,-79.00
+Unpaid,Growth,217,17133,17133.00
+Unpaid,Business,74,14686,14686.00
+Unpaid,Starter,294,8536,8536.00

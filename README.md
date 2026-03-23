@@ -507,4 +507,21 @@ Based on the two charts:
   - Derive amount_outstanding as invoice_amount - total_paid
 - **Retain only invoices with a payment issue:** Filter to keep only rows where **payment_issue_type** is not null.
 
-  
+**SQL Method - How much billed revenue remains uncollected ??**
+- **Load payment issue records:** Read from **03_3a_Which_Bills_Are_Unpaid**. Retain **payment_issue_type**, **plan_tier**, **invoice_amount**, and **amount_outstanding**.
+- **Aggregate metrics by issue type and plan tier:** Group by **payment_issue_type** and **plan_tier**. Derive three metrics:
+  - **invoice_count** — number of invoices with a payment issue in that group
+  - **total_billed** — sum of **invoice_amount** across all invoices in that group
+  - **total_uncollected** — sum of **amount_outstanding** across all invoices in that group
+ 
+**Python Method**
+Python is used to visualize the data, there is no data modeling steps needed.
+
+<p align="center">
+  <img src="Charts/03_3_Payment_Collection_Audit_Dec2025.png" width="100%">
+</p>
+
+**Key Insights**
+- **Unpaid is the real problem.** 585 invoices completely uncollected — $40,355 in revenue that was billed and never paid. Late Payment invoices are eventually collected, so they carry no outstanding balance.
+- **Growth leads unpaid by dollar value.** 217 unpaid Growth invoices at $79 each = $17,133. The highest single segment. Business is second at $14,686 despite fewer invoices — purely because of the $199 unit price.
+- **The -$79 on Starter Late Payment is a legitimate anomaly.** One customer overpaid against a Starter invoice. Worth flagging for a billing adjustment.

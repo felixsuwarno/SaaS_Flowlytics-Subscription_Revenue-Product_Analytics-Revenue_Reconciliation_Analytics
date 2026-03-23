@@ -1,5 +1,3 @@
-WIP - Work in Progress - March 21 2026
-
 # SaaS Flowlytics - Subscription Revenue - Product Analytics - Revenue Reconciliation Analytics
 MRR Movement, Net Revenue Retention, Geographic Revenue Distribution, Onboarding Experiment Analysis, and Revenue & Billing Reconciliation
 
@@ -525,3 +523,8 @@ Python is used to visualize the data, there is no data modeling steps needed.
 - **Unpaid is the real problem.** 585 invoices completely uncollected — $40,355 in revenue that was billed and never paid. Late Payment invoices are eventually collected, so they carry no outstanding balance.
 - **Growth leads unpaid by dollar value.** 217 unpaid Growth invoices at $79 each = $17,133. The highest single segment. Business is second at $14,686 despite fewer invoices — purely because of the $199 unit price.
 - **The -$79 on Starter Late Payment is a legitimate anomaly.** One customer overpaid against a Starter invoice. Worth flagging for a billing adjustment.
+
+**3-4 - Business Recommendation**
+- **Fix the billing trigger for Starter accounts.** The volume of missed invoices at the Starter tier is too consistent to be random. Something in the billing pipeline is systematically skipping these accounts. Find it and fix it before it compounds next month.
+- **Fix the churn-to-billing handoff.** Cancellations are not reaching the billing system before invoices go out. Put a process in place so that when a customer cancels, the billing system is updated before the next invoice run — not after.
+- **Follow up on unpaid invoices now.** $40,355 is sitting uncollected. Growth and Business accounts make up the majority of that amount. Contact them directly. The longer these sit, the harder they are to recover.

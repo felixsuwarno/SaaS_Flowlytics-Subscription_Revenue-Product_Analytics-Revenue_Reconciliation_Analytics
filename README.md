@@ -52,7 +52,32 @@ Subscription revenue modeling (MRR movement and Net Revenue Retention), geograph
 <br>
 
 ➤ Executive Summary :<br>
-Work in Progress
+**What the project was trying to find out**
+
+- Is Flowlytics growing its recurring revenue in a healthy, sustainable way?
+- Does the new onboarding experience actually increase trial-to-paid conversion?
+- Is the billing system accurately capturing all expected revenue?
+
+**What the data showed**
+
+- Revenue grew every month in 2025, but entirely from new customer acquisition — existing customers are not expanding
+- Churn runs $7K–$14K every month, forcing the business to constantly replace lost revenue with new signups
+- The new onboarding experience converted at 26.1% vs. 19.5% — a real, statistically confirmed improvement
+- The billing system has three problems: missed invoices, invoices sent to cancelled accounts, and $40K in unpaid bills sitting uncollected
+
+**What the key numbers are**
+
+- $97,490 cumulative net MRR as of December 2025
+- 6.54 percentage point conversion lift from the new onboarding (33.5% relative improvement)
+- $1,145 in unbilled MRR, $2,457 overbilled, $40,355 uncollected
+
+**What actions should follow**
+
+- Roll out the new onboarding to all trial users immediately
+- Investigate churn — reducing it has the same MRR impact as acquiring new customers
+- Fix the Starter billing trigger before the problem compounds next month
+- Fix the churn-to-billing handoff so cancellations stop generating invoices
+- Contact Growth and Business accounts with unpaid December invoices directly
 
 <br>
 

@@ -7,6 +7,7 @@ End-to-end SaaS revenue analytics project analyzing synthetic subscription data 
 
 <br><br>
 
+
 ➤ Executive Summary :<br>
 **What the project was trying to find out**
 
@@ -47,6 +48,15 @@ At the product level, the project evaluates a controlled onboarding experiment t
 
 At the financial operations level, the project performs revenue reconciliation between subscription records and billing invoices to identify operational discrepancies such as missing invoices, billing errors, or delayed billing events. The objective is to evaluate whether subscription activity and billing operations remain aligned, ensuring that expected recurring revenue is properly captured.
 
+➤ The Dataset :<br>
+The raw dataset spans January 2024 through June 2026, and all reporting and conclusions in this project are intentionally scoped to this full analytical window to evaluate subscription revenue growth, customer activation behavior, product experimentation outcomes, and financial reconciliation across the subscription lifecycle.
+
+The analysis uses nine core tables covering customers, trials, subscriptions, billing invoices, payments, and supporting experiment and engagement data.
+
+➤ Skills Demonstrated:
+
+(SQL • Python • Pandas • SaaS Revenue Analytics • A/B Experiment Analysis • Revenue Reconciliation • Executive-Ready Analysis)
+
 <br><br>
 
 ➤ Core Business Questions :<br>
@@ -71,8 +81,7 @@ At the financial operations level, the project performs revenue reconciliation b
 
 <br><br>
 
-➤ The Dataset :<br>
-The raw dataset spans January 2024 through June 2026, and all reporting and conclusions in this project are intentionally scoped to this full analytical window to evaluate subscription revenue growth, customer activation behavior, product experimentation outcomes, and financial reconciliation across the subscription lifecycle.
+
 
 <br>
 

@@ -245,32 +245,6 @@ Based on the two charts:
 
 **3-1 Which active subscriptions did not generate a billing invoice in December 2025, and how much recurring revenue was not billed?**
 
-**Tables used :**
-- subscriptions
-- billing_invoices
-- customers
-
-**SQL Method - Which Active Subscriptions Are Not Billed ?**
-- **Filter subscriptions to those active during December 2025:** Filter the subscriptions table to keep only rows where **subscription_status** = '**active**' and **subscription_start** <= '2025-12-31'. Retain **subscription_id**, **customer_id**, and **plan_tier**.
-- **Identify subscriptions that churned before December 2025:** Filter the subscription_events table to keep only rows where **event_type** = '**churn**' and **event_date** < '2025-12-01'. Retain **subscription_id** only as a disqualification list.
-- **Remove pre-December churned subscriptions:** Left join the filtered subscriptions against the churn disqualification list on **subscription_id**. Retain only rows where no matching churn record exists. Retain **subscription_id**, **customer_id**, and **plan_tier**.
-- **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** >= '2025-12-01' and **invoice_month** < '2026-01-01'. Retain **subscription_id** only.
-- **Identify active subscriptions with no December 2025 invoice:** Left join the churn-excluded subscriptions against the filtered December invoices on **subscription_id**. Retain only rows where no matching invoice exists. Retain **subscription_id**, **customer_id**, and **plan_tier**.
-- **Assign expected invoice amount per subscription:** Derive a new column called **expected_amount** using **plan_tier** as the business rule — Starter = 29, Growth = 79, Business = 199. Order by **plan_tier** and **subscription_id**.
-
-The answer of this business question is here :
-[03_1a_Which_Active_Subs_Not_Billed.csv](https://raw.githubusercontent.com/felixsuwarno/SaaS_Flowlytics-Subscription_Revenue-Product_Analytics-Revenue_Reconciliation_Analytics/refs/heads/main/Data_Generated/03_1a_Which_Active_Subs_Not_Billed.csv)
--> this contains 70 subscriptions_id which are not billed properly in December 2025.
-
-**SQL Method - How Much was the Missing Bill**
-- **Load the billing gap records:** Read from **03_1a_Which_Active_Subs_Not_Billed** which contains all active subscriptions with no December 2025 invoice and their expected_amount. Retain **plan_tier** and **expected_amount**.
-- **Aggregate revenue leakage by plan tier:** Group by **plan_tier** and calculate two metrics:
-  - **subscription_count:** the number of active subscriptions with no December 2025 invoice in that tier
-  - **revenue_not_billed:** the sum of expected_amount across all gap subscriptions in that tier
-
-**Python Method**
-Python is used to visualize the data, there is no data modeling steps needed.
-
 <p align="center">
   <img src="Charts/03_1_Billing_Gap_Audit_Dec2025.png" width="100%">
 </p>
@@ -288,35 +262,6 @@ Python is used to visualize the data, there is no data modeling steps needed.
 
 **3-2 Which December 2025 billing invoices were generated for subscriptions that were not active that month, and how much was overbilled?**
 
-**Tables used :**
-- subscriptions
-- billing_invoices
-- subscription_events
-
-**SQL Method - Which inactive subscriptions are billed?**
-- **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** falls within December 2025. Retain **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, and **invoice_amount**.
-- **Filter subscription events to churn events only:** Filter the subscription_events table to keep only rows where **event_type** = 'churn'. Retain **subscription_id** and event_date.
-- **Join subscriptions to churn events:** Left join the subscriptions table against the churn-filtered subscription events on **subscription_id**. Retain **subscription_id**, **customer_id**, **subscription_start**, **subscription_status**, and event_date.
-- **Derive first churn date per subscription:** Group the joined records by **subscription_id**, **customer_id**, **subscription_start**, and **subscription_status**. Derive a new column called **first_churn_date** as the earliest event_date per subscription.
-- **Derive December 2025 activity flag per subscription:** From the aggregated records, derive a new column called **active_in_dec_2025** using three disqualification rules:
-  - Set to 0 if **subscription_start** > '2025-12-31' — subscription did not yet exist in December 2025
-  - Set to 0 if **first_churn_date** < '2025-12-01' — subscription was already churned before December
-  - Set to 0 if **subscription_status** = 'cancelled' — subscription is marked inactive regardless of churn event presence
-  - Otherwise set to 1
-- **Identify December invoices issued to inactive subscriptions:** Left join the filtered December invoices against the activity flag on **subscription_id**. Retain only rows where **active_in_dec_2025** = 0, defaulting to 0 via COALESCE where no activity flag record exists. Retain **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, **invoice_amount**, **first_churn_date**, and **active_in_dec_2025**.
-
-
-**SQL Method - How Much was the Overbill ?**
-
-- **Aggregate overbilled invoices to calculate total overbilled amount:** Summarize the total billed revenue from subscriptions that were not active in December 2025.
-  - Use the table **03_2a_Which_Inactive_Subs_Are_Billed**
-  - Create **overbilled_amount** as the sum of invoice_amount
-- Return final overbilling result: Output the total overbilled amount for December 2025.
-  - Select the aggregated result for reporting
-
-**Python Method**
-Python is used to visualize the data, there is no data modeling steps needed.
-
 <p align="center">
   <img src="Charts/03_2_Overbilling_Gap_Audit_Dec2025.png" width="100%">
 </p>
@@ -333,36 +278,6 @@ Based on the two charts:
 <br>
 
 **3-3 Which December 2025 billing invoices have not been fully paid or were paid outside the expected payment window, and how much billed revenue remains uncollected?**
-
-**Tables used :**
-- subscriptions
-- billing_invoices
-- payments
-
-**SQL Method - Which December 2025 billing invoices have not been paid or were paid outside the expected payment window (30 days )?**
-
-- **Filter billing invoices to December 2025:** Filter the **billing_invoices** table to keep only rows where **invoice_month** = '2025-12-01'. Retain **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, and **invoice_amount**.
-- **Filter payments to December 2025 and later:** Filter the payments table to keep only rows where **payment_date** >= '2025-12-01'. Retain **invoice_id**, **payment_amount**, and **days_to_pay**.
-- **Aggregate payment totals per invoice:** Group the filtered payments by **invoice_id**. Derive **total_paid** as the sum of **payment_amount** and **max_days_to_pay** as the maximum **days_to_pay**.
-- **Join December invoices to aggregated payments:** Left join the filtered invoices against the aggregated payment metrics on **invoice_id**. Apply COALESCE to **total_paid** to default to 0 where no payment record exists. Retain **invoice_id**, **subscription_id**, **customer_id**, **invoice_month**, **invoice_amount**, **total_paid**, and **max_days_to_pay**.
-- **Join to subscriptions to bring in plan tier:** Left join the invoice-payment records against the subscriptions table on subscription_id. Retain all prior columns plus plan_tier.
-- **Classify payment issue type per invoice:** From the plan-tier-joined records, derive two new columns.
-  - Derive payment_issue_type using three rules:
-    - Set to '**Unpaid**' if **total_paid** = 0
-    - Set to '**Partially** Paid' if **total_paid** > 0 and **total_paid** < invoice_amount
-    - Set to **'Late Payment**' if **total_paid** >= **invoice_amount** and **max_days_to_pay** > 30
-  - Derive amount_outstanding as invoice_amount - total_paid
-- **Retain only invoices with a payment issue:** Filter to keep only rows where **payment_issue_type** is not null.
-
-**SQL Method - How much billed revenue remains uncollected ??**
-- **Load payment issue records:** Read from **03_3a_Which_Bills_Are_Unpaid**. Retain **payment_issue_type**, **plan_tier**, **invoice_amount**, and **amount_outstanding**.
-- **Aggregate metrics by issue type and plan tier:** Group by **payment_issue_type** and **plan_tier**. Derive three metrics:
-  - **invoice_count** — number of invoices with a payment issue in that group
-  - **total_billed** — sum of **invoice_amount** across all invoices in that group
-  - **total_uncollected** — sum of **amount_outstanding** across all invoices in that group
- 
-**Python Method**
-Python is used to visualize the data, there is no data modeling steps needed.
 
 <p align="center">
   <img src="Charts/03_3_Payment_Collection_Audit_Dec2025.png" width="100%">

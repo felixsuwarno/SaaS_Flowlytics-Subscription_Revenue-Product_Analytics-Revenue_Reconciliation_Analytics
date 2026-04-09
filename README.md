@@ -150,6 +150,8 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 - **The top 5 states follow U.S. tech and population centers**.CA, NY, TX, FL, and WA dominate the bar chart. This is expected for a workflow automation product — these states have the highest density of tech companies and knowledge workers.
 - **The revenue base is top-heavy.** After the top 5 states the bars shrink rapidly and consistently. The majority of states show minimal bar length, indicating that most of the U.S. geography contributes very little to total MRR.
 
+<br>
+
 **1-4  Business Recommendation**
 - **Flowlytics has a stable and growing revenue base, but the growth model is fragile.** The business is entirely dependent on new customer acquisition to offset churn. If new signups slow down for even one or two months, total MRR will decline. This is not a sustainable position for a mature SaaS company.
 - There are two levers available to fix this.
@@ -166,22 +168,6 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 ### 2 — PRODUCT EXPERIMENTATION
 
 **2-1  Does the new onboarding experience increase trial-to-paid conversion?**
-
-**Tables used :**
-- trials.csv
-- experiment_assignments.csv
-- subscriptions.csv
-
-**SQL Method**
-- **Join trials to experiment assignments:** Join the trials table to the **experiment_assignments** table on **customer_id**. Keep **customer_id** and variant. This produces the experiment population — trial customers who were assigned to a variant.
-- **Filter the subscriptions table to conversion status:** From the subscriptions table, keep **customer_id** and **subscription_status** across all status values.
-  - **Create a derived column called converted**: set it to 1 if **subscription_status** is active or cancelled, otherwise 0. A customer who ever activated a paid subscription is considered converted regardless of whether they later cancelled.
-- **Join trials to experiment assignments:** Join the filtered trials table to the filtered experiment assignments table on **customer_id**. This produces the experiment population — trial customers who were assigned to a variant.
-- **Join the experiment population to conversion status:** Left join the experiment population to the filtered subscriptions table on **customer_id**. Use a left join to retain trial customers who have no subscription record. Set converted to 0 for customers with no match.
-- **Aggregate conversion metrics by variant:** Group by variant. Calculate **total_trials** as the count of customers, converted as the sum of the converted flag, and **conversion_rate** as converted divided by **total_trials**.
-
-**Python Method**
-- No data modeling is done on python, there is no visualization necessary to answer this business question.
 
 <br>
 
@@ -206,17 +192,6 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 
 **2-2  Is the difference in trial-to-paid conversion between the control and treatment groups statistically significant?**
 
-**Tables used :**
-02_1_Trial_To_Paid_Conversion.csv
-
-
-**Python Method**
-- **Extract conversion counts from the dataframe:** From the loaded dataframe, pull **total_trials** and **converted** for each variant. Derive **not_converted** as **total_trials** minus **converted**. These two values — **converted** and **not_converted** — form the contingency table for the chi-square test.
-- **Build the contingency table:** Construct a 2x2 contingency table with one row per variant and two columns — **converted** and **not_converted**. This is the input format required by the chi-square test.
-- **Run the chi-square test:** Apply a chi-square test of independence on the contingency table. Extract the chi-square statistic, p-value, and degrees of freedom from the result.
-- **Evaluate statistical significance:** Compare the p-value against a significance threshold of 0.05. If the p-value is below 0.05, the difference in conversion rates is statistically significant. If it is at or above 0.05, the difference is not statistically significant.
-- **Print the results:** Output the chi-square statistic, p-value, degrees of freedom, and the significance conclusion in plain English.
-
 <br>
 
 **Charts**
@@ -239,41 +214,6 @@ Are our existing customers bringing in more revenue over time, or do we need a c
 <br>
 
 **2-3  What user characteristics are associated with trial-to-paid conversion?**
-
-**Tables used :**
-- trials 
-- trial_engagement_summary
-- subscriptions 
-
-**SQL Method - Trial Users Activation Metrics by Conversion Status**
-- **Pull all trial customers as the base population:** Filter the **trials** table to keep only **customer_id**. Each row represents one unique trial participant.
-- **Bring in engagement features:** Left join the trial population to **trial_engagement_summary** on **customer_id**. Keep **templates_used**, **workflows_created**, **days_active_during_trial**, and **integrations_connected**.
-- **Bring in subscription status:** Left join the result to subscriptions on **customer_id**. Keep **subscription_status**. Use a left join so trial customers with no subscription record are retained.
-- **Create the conversion flag:** Derive a new column from **subscription_status**, name it **converted**. Set it to 1 if **subscription_status** is **active** or **cancelled**, otherwise set it to 0.
-- **Compute average engagement by conversion status:** Group by **converted**. For each group compute:
-  - **customer_count**              — total number of customers in each group
-  - **avg_templates_used**          — average templates used
-  - **avg_workflows_created**       — average workflows created
-  - **avg_days_active**             — average days active during trial
-  - **avg_integrations_connected**  — average integrations connected
-- **Pivot the averages into one row per feature:** Reshape the two-row result so each feature becomes its own row. Each row contains the feature name, the average for converted users, and the average for non-converted users.
-- **Compute the separation ratio:** For each feature, divide the converted average by the non-converted average. This produces a single number per feature that represents how much higher engagement is for converters relative to non-converters. A higher ratio means a stronger predictor.
-
-**SQL Method - Trial Users Conversion Rate by Engagement Quartile**
-- **Pull all trial customers as the base population:** Filter the trials table to keep only **customer_id**. Each row represents one unique trial participant.
-- **Bring in engagement features:** Left join the trial population to **trial_engagement_summary** on **customer_id**. Keep **templates_used**, **workflows_created**, **days_active_during_trial**, and **integrations_connected**.
-- **Bring in subscription status:** Left join the result to **subscriptions** on **customer_id**. Keep **subscription_status**. Use a left join so trial customers with no subscription record are retained.
-- **Create the conversion flag:** Derive a new column converted. Set it to 1 if **subscription_status** is **active** or **cancelled**, otherwise set it to **0**.
-- **Assign quartile buckets for each engagement feature:** Using the converted dataset, assign each customer to a quartile (1–4) for each of the four features independently. Q1 is the lowest 25% engagement, Q4 is the highest 25% engagement.
-- **Compute conversion rate per feature per quartile** — templates used: Group by templates_quartile. Compute:
-  - **feature** — label as templates_used
-  - **total_customers** — number of customers in that quartile
-  - **converted_customers** — number who converted
-  - **conversion_rate** — converted customers divided by total customers
-- **Compute conversion rate per feature per quartile — workflows created:** Same structure as above, group by **workflows_quartile**, label feature as **workflows_created**.
-- **Compute conversion rate per feature per quartile — days active during trial:** Same structure, group by **days_active_quartile**, label feature as **days_active_during_trial**.
-- **Compute conversion rate per feature per quartile — integrations connected:** Same structure, group by **integrations_quartile**, label feature as **integrations_connected**.
-- **Stack all four feature outputs into one result:** Union all four aggregation CTEs into a single output. Order by feature and quartile ascending.
 
 <p align="center">
   <img src="Charts/02_3_Trial_User_Conversion_Analysis.png" width="100%">
